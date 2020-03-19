@@ -2,6 +2,5 @@
 ## Contributors
   - Owen Bezick
   - Daniel Cowan
-## Table of Contents
-### Data
+## Data
 Data from [Proffesional Hockey Database](https://www.kaggle.com/open-source-sports/professional-hockey-database) on Github
