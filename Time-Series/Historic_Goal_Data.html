@@ -1,0 +1,97 @@
+<body>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <style>
+    * {
+      font-family: Courier;
+    }
+    .axis--x path {
+      stroke: black;
+    }
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 3px;
+    }
+
+  </style>
+  <script>
+
+// Create margins
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+      var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom + 100)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+// Year time parser
+  var x = d3.scaleTime().range([0, width]),
+      y = d3.scaleLinear().range([height, 0]),
+      z = d3.scaleOrdinal(d3.schemeCategory10);
+// d3's line generator
+  var line = d3.line()
+      .x(d => x(d.value.year))
+      .y(d => y(d.value.sum))
+      .curve(d3.curveLinear);
+// data set creation
+  var parseTime = d3.timeParse("%Y");
+  df_scoring = d3.csv("bezick_owen.csv").then(df_scoring => {
+      df_scoring.forEach(d => {
+        d.year = parseTime(d.year);
+        d.goals = +d.G;
+      });
+
+//console.log(df_scoring)
+// data manipulation
+var sumYearlyGoals = d3.nest()
+      .key(d => d.year)
+      .rollup(v => {
+        return {
+          year: v[0].year,
+          sum: d3.sum(v, d => d.goals)
+        }
+      })
+      .entries(df_scoring);
+// sort by year
+sumYearlyGoals.sort(function(x, y){
+   return d3.ascending(x.value.year, y.value.year);
+})
+
+x.domain(d3.extent(sumYearlyGoals, d => d.value.year));
+y.domain(d3.extent(sumYearlyGoals, d => d.value.sum));
+
+svg.append("g")
+    .attr("class", "axis axis--x")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
+    .append("text")
+    .attr("y", 25)
+    .attr("x", 450)
+    .attr("dy", "1em")
+    .attr("fill", "#000")
+    .attr('font-size', '20px')
+      .text("Year");
+svg.append("g")
+    .attr("class", "axis axis--y")
+    .call(d3.axisLeft(y))
+    .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "1em")
+        .attr('font-size', '20px')
+        .attr("fill", "#000")
+        .text("Number of Total Goals Scored")
+//console.log(sumYearlyGoals)
+var path = svg.append("path")
+    .datum(sumYearlyGoals) // bind data
+    .attr("class", "line")
+    .attr("d", d => line(d));
+
+});
+</script>
