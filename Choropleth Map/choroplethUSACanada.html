@@ -1,0 +1,183 @@
+<body>
+  <!DOCTYPE html>
+  <meta charset="utf-8">
+  <style>
+    .countries {
+      fill: none;
+      stroke: #fff;
+      stroke-linejoin: round;
+    }
+
+    .legendThreshold {
+      font-size: 12px;
+      font-family: sans-serif;
+    }
+
+    .caption {
+      fill: #000;
+      text-anchor: start;
+      font-weight: bold;
+    }
+
+    div.tooltip {
+      position: absolute;
+      text-align: center;
+      width: 60px;
+      height: 28px;
+      padding: 2px;
+      font: 12px sans-serif;
+      background: lightsteelblue;
+      border: 0px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+  </style>
+  <svg width="960" height="600"></svg>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
+  <script src="https://d3js.org/queue.v1.min.js"></script>
+  <script>
+    // The svg
+    var svg = d3.select("svg"),
+      width = +svg.attr("width"),
+      height = +svg.attr("height");
+
+    var usaCodes = {
+      "AL": "Alabama",
+      "AK": "Alaska",
+      "AZ": "Arizona",
+      "AR": "Arkansas",
+      "CA": "California",
+      "CO": "Colorado",
+      "CT": "Connecticut",
+      "DE": "Delaware",
+      "FL": "Florida",
+      "GA": "Georgia",
+      "HI": "Hawaii",
+      "ID": "Idaho",
+      "IL": "Illinois",
+      "IN": "Indiana",
+      "IA": "Iowa",
+      "KS": "Kansas",
+      "KY": "Kentucky",
+      "LA": "Louisiana",
+      "ME": "Maine",
+      "MD": "Maryland",
+      "MA": "Massachusetts",
+      "MI": "Michigan",
+      "MN": "Minnesota",
+      "MS": "Mississippi",
+      "MO": "Missouri",
+      "MT": "Montana",
+      "NE": "Nebraska",
+      "NV": "Nevada",
+      "NH": "New Hampshire",
+      "NJ": "New Jersey",
+      "NM": "New Mexico",
+      "NY": "New York",
+      "NC": "North Carolina",
+      "ND": "North Dakota",
+      "OH": "Ohio",
+      "OK": "Oklahoma",
+      "OR": "Oregon",
+      "PA": "Pennsylvania",
+      "RI": "Rhode Island",
+      "SC": "South Carolina",
+      "SD": "South Dakota",
+      "TN": "Tennessee",
+      "TX": "Texas",
+      "UT": "Utah",
+      "VT": "Vermont",
+      "VA": "Virginia",
+      "WA": "Washington",
+      "WV": "West Virginia",
+      "WI": "Wisconsin",
+      "WY": "Wyoming"
+    }
+
+    var canCodes = {
+      "NL": "Newfoundland and Labrador",
+      "PE": "Prince Edward Island",
+      "NS": "Nova Scotia",
+      "NB": "New Brunswick",
+      "QC": "Quebec",
+      "ON": "Ontario",
+      "MB": "Manitoba",
+      "SK": "Saskatchewan",
+      "AB": "Alberta",
+      "BC": "British Columbia",
+      "YT": "Yukon",
+      "NT": "Northwest Territories",
+      "NU": "Nunavut"
+    }
+
+    // Map and projection
+    var path = d3.geo.path();
+
+    var projection = d3.geo.albers()
+      .center([-20, 45])
+      .parallels([0, 45])
+      .scale(600)
+      .translate([width / 2, height / 2])
+
+    var path = d3.geo.path()
+      .projection(projection);
+
+    // Data and color scale
+    var data = d3.map();
+
+    // Load external data and boot
+    queue()
+      .defer(d3.json, "states_provinces.json")
+      .defer(d3.csv, "exp_scoring.csv")
+      .await(ready);
+
+    function ready(error, topo, data) {
+      if (error) throw error;
+
+      var scoring = {}
+
+      data.forEach(d => {
+        if (d.birthCountry == "USA") {
+          d.state = usaCodes[d.birthState];
+        } else if (d.birthCountry == "Canada") {
+          d.state = canCodes[d.birthState];
+        } else {
+          return;
+        }
+
+        if (!scoring.hasOwnProperty(d.state)) {
+          scoring[d.state] = {
+            points: [],
+            total: 0
+          };
+        }
+        if (d.Pts != "NA") {
+          scoring[d.state].points.push(+d.Pts);
+          scoring[d.state].total += (+d.Pts);
+        } else {
+          scoring[d.state].points.push(0);
+        }
+      });
+
+      console.log(scoring);
+
+      // Draw the map
+      svg.append("g")
+        .attr("class", "countries")
+        .selectAll("path")
+        .data(topo.features)
+        .enter().append("path")
+        .attr("fill", function(d) {
+          // Pull data for this country
+          if (scoring.hasOwnProperty(d.properties.name)) {
+            return "red";
+          } else {
+            return "lightgrey";
+          }
+        })
+        .attr("d", path);
+    }
+  </script>
+</body>
