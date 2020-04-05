@@ -19,29 +19,43 @@
       font-weight: bold;
     }
 
-    div.tooltip {
+    selectButton {
       position: absolute;
-      text-align: center;
-      width: 60px;
-      height: 28px;
-      padding: 2px;
-      font: 12px sans-serif;
-      background: lightsteelblue;
-      border: 0px;
-      border-radius: 8px;
-      pointer-events: none;
+      left: 100px;
+      top: 150px;
+    }
+
+    .tooltip {
+      background-color: white;
+      border: solid;
+      border-width: 2px;
+      border-radius: 5px;
+      padding: 5px;
+      visibility: hidden;
     }
   </style>
-  <svg width="960" height="600"></svg>
+  <select id="selectButton"></select>
+  <div id="map"></div>
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
   <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
   <script>
+    var margin = {
+        top: 20,
+        right: 20,
+        bottom: 20,
+        left: 20
+      },
+      width = 960 - margin.left - margin.right,
+      height = 600 - margin.top - margin.bottom;
+
     // The svg
-    var svg = d3.select("svg"),
-      width = +svg.attr("width"),
-      height = +svg.attr("height");
+    var svg = d3.select("#map")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("transform", "translate(0, 40)");
 
     // Map and projection
     var path = d3.geoPath();
@@ -92,27 +106,91 @@
     function ready(error, topo, data) {
       if (error) throw error;
 
+      // List of groups
+      var groups = ["Points", "Goals", "Assists"];
+
+      // add the options to the button
+      d3.select("#selectButton")
+        .attr("transform", "translate(0," + height + ")")
+        .selectAll('myOptions')
+        .data(groups)
+        .enter()
+        .append('option')
+        .text(function(d) {
+          return d;
+        }) // text showed in the menu
+        .attr("value", function(d) {
+          return d;
+        }) // corresponding value returned by the button
+
       var scoring = {}
 
       data.forEach(d => {
         if (d.birthCountry == "Brunei Darussalam") {
           d.birthCountry = "Brunei";
+        } else if (d.birthCountry == "USSR") {
+          d.birthCountry = "Russia";
         }
         if (!scoring.hasOwnProperty(d.birthCountry)) {
           scoring[d.birthCountry] = {
-            points: [],
-            total: 0
+            points: 0,
+            goals: 0,
+            assists: 0,
+            playerList: [],
+            totalPlayers: 0
           };
         }
         if (d.Pts != "NA") {
-          scoring[d.birthCountry].points.push(+d.Pts);
-          scoring[d.birthCountry].total += (+d.Pts);
-        } else {
-          scoring[d.birthCountry].points.push(0);
+          scoring[d.birthCountry].points += (+d.Pts);
+          scoring[d.birthCountry].assists += (+d.A);
+          scoring[d.birthCountry].goals += (+d.G);
+        }
+        if (!(scoring[d.birthCountry].playerList.includes(d.playerID))) {
+          scoring[d.birthCountry].playerList.push(d.playerID);
+          scoring[d.birthCountry].totalPlayers += 1;
         }
       });
 
       console.log(scoring);
+
+      // create a tooltip
+      var Tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip");
+
+      // Three function that change the tooltip when user hover / move / leave a cell
+      var mouseover = function(d) {
+        Tooltip
+          .style("visibility", "visible")
+        d3.select(this)
+          .style("stroke", "black")
+          .style("opacity", 1)
+      }
+
+      var mousemove = function(d) {
+        if (scoring[d.properties.name]) {
+          Tooltip
+            .html(scoring[d.properties.name].totalPlayers + " professional hockey " +
+              "players from<br>" + d.properties.name + " have scored a total of " +
+              scoring[d.properties.name].points + " points.")
+            .attr("left", (d3.event.pageX) + "px")
+            .attr("top", (d3.event.pageY - 28) + "px");
+        } else {
+          Tooltip
+            .html("No professional hockey players<br>have been born in " +
+              d.properties.name + ".")
+            .attr("left", (d3.event.pageX) + "px")
+            .attr("top", (d3.event.pageY - 28) + "px");
+        }
+      }
+
+      var mouseleave = function(d) {
+        Tooltip
+          .style("visibility", "hidden")
+        d3.select(this)
+          .style("stroke", "white")
+          .style("opacity", 1)
+      }
 
       // Draw the map
       svg.append("g")
@@ -123,12 +201,103 @@
         .attr("fill", function(d) {
           // Pull data for this country
           if (scoring.hasOwnProperty(d.properties.name)) {
-            return colorScale(scoring[d.properties.name].total);
+            return colorScale(scoring[d.properties.name].points);
           } else {
-            return "lightgrey";
+            return "black";
           }
         })
-        .attr("d", path);
+        .attr("d", path)
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave);
+
+      // A function that updates the chart
+      function update(selectedGroup, topo, data) {
+
+        // Three function that change the tooltip when user hover / move / leave a cell
+        var mouseover = function(d) {
+          Tooltip
+            .style("visibility", "visible")
+          d3.select(this)
+            .style("stroke", "black")
+            .style("opacity", 1)
+        }
+
+        var mousemove = function(d) {
+
+          var numberToShow;
+
+          if (scoring.hasOwnProperty(d.properties.name)) {
+            if (selectedGroup == "Points") {
+              numberToShow = scoring[d.properties.name].points;
+            } else if (selectedGroup == "Goals") {
+              numberToShow = scoring[d.properties.name].goals;
+            } else {
+              numberToShow = scoring[d.properties.name].assists;
+            }
+          }
+
+          if (scoring[d.properties.name]) {
+            Tooltip
+              .html(scoring[d.properties.name].totalPlayers +
+                " professional hockey players from<br>" + d.properties.name +
+                " have scored a total of " + numberToShow + " " + selectedGroup.toLowerCase() + ".")
+              .attr("left", (d3.event.pageX) + "px")
+              .attr("top", (d3.event.pageY - 28) + "px");
+          } else {
+            Tooltip
+              .html("No professional hockey players<br>have been born in " +
+                d.properties.name + ".")
+              .attr("left", (d3.event.pageX) + "px")
+              .attr("top", (d3.event.pageY - 28) + "px");
+          }
+        }
+
+        var mouseleave = function(d) {
+          Tooltip
+            .style("visibility", "hidden")
+          d3.select(this)
+            .style("stroke", "white")
+            .style("opacity", 1)
+        }
+
+        // Draw the map
+        svg.append("g")
+          .attr("class", "countries")
+          .selectAll("path")
+          .data(topo.features)
+          .enter().append("path")
+          .attr("fill", function(d) {
+
+            if (scoring.hasOwnProperty(d.properties.name)) {
+              var numberToShow;
+
+              if (selectedGroup == "Points") {
+                numberToShow = scoring[d.properties.name].points;
+              } else if (selectedGroup == "Goals") {
+                numberToShow = scoring[d.properties.name].goals;
+              } else {
+                numberToShow = scoring[d.properties.name].assists;
+              }
+
+              return colorScale(numberToShow);
+            } else {
+              return "black";
+            }
+          })
+          .attr("d", path)
+          .on("mouseover", mouseover)
+          .on("mousemove", mousemove)
+          .on("mouseleave", mouseleave);
+      }
+
+      // When the button is changed, run the updateChart function
+      d3.select("#selectButton").on("change", function(d) {
+        // recover the option that has been chosen
+        var selectedOption = d3.select(this).property("value");
+        // run the updateChart function with this selected option
+        update(selectedOption, topo, data);
+      })
     }
   </script>
 </body>
