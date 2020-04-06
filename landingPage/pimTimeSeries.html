@@ -48,10 +48,10 @@
 
     // Create data set: df_scoring
     var parseTime = d3.timeParse("%Y");
-    df_scoring = d3.csv("Teams.csv").then(df_scoring => {
+    df_scoring = d3.csv("Scoring.csv").then(df_scoring => {
       df_scoring.forEach(d => {
         d.year = parseTime(d.year);
-        d.goals = +d.GA;
+        d.goals = +d.PIM;
       });
 
       //console.log(df_scoring)
@@ -99,7 +99,7 @@
       .attr("dy", "1em")
       .attr('font-size', '18px')
       .attr("fill", "#000")
-      .text("Total Goals Scored")
+      .text("Total Penalty Minutes")
 
       console.log(sumYearlyGoals)
 
@@ -173,7 +173,7 @@
 
         focus.select(".tipsum")
         .attr("transform", "translate(" + (xCoord + 5) + "," + (yCoord + 40) + ")")
-        .html(" Goal Total: " + goalFormat(d.value.sum));
+        .html("Penalty Minutes Total: " + goalFormat(d.value.sum));
 
       }
     });

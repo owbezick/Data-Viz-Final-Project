@@ -46,35 +46,35 @@
     var focus = svg.append("g")
     .style("display", "none");
 
-    // Create data set: df_scoring
+    // Create data set: df_points
     var parseTime = d3.timeParse("%Y");
-    df_scoring = d3.csv("Teams.csv").then(df_scoring => {
-      df_scoring.forEach(d => {
+    df_points = d3.csv("Teams.csv").then(df_points => {
+      df_points.forEach(d => {
         d.year = parseTime(d.year);
-        d.goals = +d.GA;
+        d.pts = +d.Pts;
       });
 
-      //console.log(df_scoring)
+      console.log(df_points)
 
-      // Create data set: sumYearlyGoals
-      var sumYearlyGoals = d3.nest()
+      // Create data set: sumYearlyPts
+      var sumYearlyPts = d3.nest()
       .key(d => d.year)
       .rollup(v => {
         return {
           year: v[0].year,
-          sum: d3.sum(v, d => d.goals)
+          sum: d3.sum(v, d => d.pts)
         }
       })
-      .entries(df_scoring);
+      .entries(df_points);
 
-      // Sort sum_yearly_goals by year
-      sumYearlyGoals.sort(function(x, y){
+      // Sort
+      sumYearlyPts.sort(function(x, y){
         return d3.ascending(x.value.year, y.value.year);
       })
 
       // Scale the range of the data
-      x.domain(d3.extent(sumYearlyGoals, d => d.value.year));
-      y.domain(d3.extent(sumYearlyGoals, d => d.value.sum));
+      x.domain(d3.extent(sumYearlyPts, d => d.value.year));
+      y.domain(d3.extent(sumYearlyPts, d => d.value.sum));
 
       // Add the x-axis
       svg.append("g")
@@ -99,13 +99,13 @@
       .attr("dy", "1em")
       .attr('font-size', '18px')
       .attr("fill", "#000")
-      .text("Total Goals Scored")
+      .text("Total Points")
 
-      console.log(sumYearlyGoals)
+      console.log(sumYearlyPts)
 
       // Add the line
       var path = svg.append("path")
-      .datum(sumYearlyGoals) // bind data
+      .datum(sumYearlyPts) // bind data
       .attr("class", "line")
       .attr("d", d => line(d));
 
@@ -147,9 +147,9 @@
 
       function mousemove() {
         var x0 = x.invert(d3.mouse(this)[0]),
-        i = bisectDate(sumYearlyGoals, x0, 1),
-        d0 = sumYearlyGoals[i - 1],
-        d1 = sumYearlyGoals[i],
+        i = bisectDate(sumYearlyPts, x0, 1),
+        d0 = sumYearlyPts[i - 1],
+        d1 = sumYearlyPts[i],
         d = x0 - d0.value.year > d1.value.year - x0 ? d1 : d0;
 
         var xCoord = x(d.value.year);
@@ -173,7 +173,7 @@
 
         focus.select(".tipsum")
         .attr("transform", "translate(" + (xCoord + 5) + "," + (yCoord + 40) + ")")
-        .html(" Goal Total: " + goalFormat(d.value.sum));
+        .html("Points Total: " + goalFormat(d.value.sum));
 
       }
     });
