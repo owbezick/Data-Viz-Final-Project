@@ -1,0 +1,180 @@
+<body>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <style>
+    * {
+      font-family: Courier;
+    }
+    .axis--x path {
+      stroke: black;
+    }
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 3px;
+    }
+  </style>
+
+  <script>
+
+    // Set the dimensions of the graph
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+    // Append the svg canvas
+    var svg = d3.select("body").append("svg")
+    .attr("width", 175 + width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom + 100)
+    .append("g")
+    .attr("transform",
+    "translate(" + margin.left + "," + margin.top + ")");
+
+    // Parse the date/time data
+    var x = d3.scaleTime().range([0, width]),
+    y = d3.scaleLinear().range([height, 0]),
+    z = d3.scaleOrdinal(d3.schemeCategory10);
+    bisectDate = d3.bisector(function(d) { return d.value.year; }).left;
+
+    // d3 line generator
+    var line = d3.line()
+    .x(d => x(d.value.year))
+    .y(d => y(d.value.sum))
+    .curve(d3.curveLinear);
+
+    // tool tip generator
+    var focus = svg.append("g")
+    .style("display", "none");
+
+    // Create data set: df_scoring
+    var parseTime = d3.timeParse("%Y");
+    df_scoring = d3.csv("Scoring.csv").then(df_scoring => {
+      df_scoring.forEach(d => {
+        d.year = parseTime(d.year);
+        d.goals = +d.PIM;
+      });
+
+      //console.log(df_scoring)
+
+      // Create data set: sumYearlyGoals
+      var sumYearlyGoals = d3.nest()
+      .key(d => d.year)
+      .rollup(v => {
+        return {
+          year: v[0].year,
+          sum: d3.sum(v, d => d.goals)
+        }
+      })
+      .entries(df_scoring);
+
+      // Sort sum_yearly_goals by year
+      sumYearlyGoals.sort(function(x, y){
+        return d3.ascending(x.value.year, y.value.year);
+      })
+
+      // Scale the range of the data
+      x.domain(d3.extent(sumYearlyGoals, d => d.value.year));
+      y.domain(d3.extent(sumYearlyGoals, d => d.value.sum));
+
+      // Add the x-axis
+      svg.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+      .append("text")
+      .attr("y", 25)
+      .attr("x", 450)
+      .attr("dy", "1em")
+      .attr("fill", "#000")
+      .attr('font-size', '20px')
+      .text("Year");
+
+      // Add the y-axis
+      svg.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "1em")
+      .attr('font-size', '18px')
+      .attr("fill", "#000")
+      .text("Total Penalty Minutes")
+
+      console.log(sumYearlyGoals)
+
+      // Add the line
+      var path = svg.append("path")
+      .datum(sumYearlyGoals) // bind data
+      .attr("class", "line")
+      .attr("d", d => line(d));
+
+      // append the circle at the intersection
+      focus.append("circle")
+      .attr("class", "y")
+      .style("fill", "none")
+      .style("stroke", "blue")
+      .attr("r", 4);
+
+
+      var tip = focus.append("rect")
+        .attr("class", "tip")
+        .attr("stroke", "black")
+        .attr("fill", "#d3d3d3")
+        .attr("rx", 5)
+        .attr("ry", 5)
+        .attr("width", 175)
+        .attr("height", 50);
+
+      var tipYear = focus.append("text")
+        .attr("class", "tipyear")
+        .attr("stroke", "black");
+      var tipSum = focus.append("text")
+        .attr("class", "tipsum")
+        .attr("stroke", "black");
+
+
+
+      // append the rectangle to capture mouse
+      svg.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .on("mouseover", function() { focus.style("display", null); })
+      .on("mouseout", function() { focus.style("display", "none"); })
+      .on("mousemove", mousemove);
+
+      function mousemove() {
+        var x0 = x.invert(d3.mouse(this)[0]),
+        i = bisectDate(sumYearlyGoals, x0, 1),
+        d0 = sumYearlyGoals[i - 1],
+        d1 = sumYearlyGoals[i],
+        d = x0 - d0.value.year > d1.value.year - x0 ? d1 : d0;
+
+        var xCoord = x(d.value.year);
+        var yCoord = y(d.value.sum);
+
+        focus.select("circle.y")
+        .attr("transform",
+        "translate(" + xCoord + "," +
+        yCoord + ")");
+
+        focus.select(".tip")
+        .attr("transform",
+        "translate(" + xCoord + "," +
+        yCoord + ")");
+
+        yearFormat = d3.timeFormat("%Y");
+        goalFormat = d3.format(",");
+        focus.select(".tipyear")
+        .attr("transform", "translate(" + (xCoord + 5) + "," + (yCoord + 20) + ")")
+        .html("Year: " + yearFormat(d.value.year));
+
+        focus.select(".tipsum")
+        .attr("transform", "translate(" + (xCoord + 5) + "," + (yCoord + 40) + ")")
+        .html("Penalty Minutes Total: " + goalFormat(d.value.sum));
+
+      }
+    });
+  </script>
