@@ -154,42 +154,62 @@
       console.log(scoring);
 
       // create a tooltip
-      var Tooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip");
+      var tooltip = svg.append("g")
+        .style("display", "none");;
+
+      var rect = tooltip.append("rect");
+
+      var tiptext = tooltip.append("text")
+        .attr("class", "tiptext")
+        .attr("stroke", "black");
 
       // Three function that change the tooltip when user hover / move / leave a cell
       var mouseover = function(d) {
-        Tooltip
-          .style("visibility", "visible")
+        tooltip.style("display", null);
+
         d3.select(this)
           .style("stroke", "black")
-          .style("opacity", 1)
+          .style("opacity", 1);
       }
 
       var mousemove = function(d) {
+        tooltip.select("rect")
+          .attr("width", "200px")
+          .attr("height", "100px")
+          .style("stroke", "black")
+          .attr("fill", "#d3d3d3")
+          .style("opacity", 1);
+
         if (scoring[d.properties.name]) {
-          Tooltip
+          tooltip.select("rect")
+            .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
+              d3.mouse(this)[1] + ")");
+
+          tooltip.select(".tiptext")
             .html(scoring[d.properties.name].totalPlayers + " professional hockey " +
               "players from<br>" + d.properties.name + " have scored a total of " +
-              scoring[d.properties.name].points + " points.")
-            .attr("left", (d3.event.pageX) + "px")
-            .attr("top", (d3.event.pageY - 28) + "px");
+              scoring[d.properties.name].points + " points.</br>")
+            .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
+              (d3.mouse(this)[1] + 20) + ")");
         } else {
-          Tooltip
+          tooltip.select("rect")
+            .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
+              d3.mouse(this)[1] + ")");
+
+          tooltip.select(".tiptext")
             .html("No professional hockey players<br>have been born in " +
-              d.properties.name + ".")
-            .attr("left", (d3.event.pageX) + "px")
-            .attr("top", (d3.event.pageY - 28) + "px");
+              d.properties.name + ".</br>")
+            .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
+              (d3.mouse(this)[1] + 20) + ")");
         }
       }
 
       var mouseleave = function(d) {
-        Tooltip
-          .style("visibility", "hidden")
+        tooltip.style("display", "none");
+
         d3.select(this)
           .style("stroke", "white")
-          .style("opacity", 1)
+          .style("opacity", 1);
       }
 
       // Draw the map
@@ -214,16 +234,25 @@
       // A function that updates the chart
       function update(selectedGroup, topo, data) {
 
+        d3.select(".caption")
+          .html(selectedGroup);
+
         // Three function that change the tooltip when user hover / move / leave a cell
         var mouseover = function(d) {
-          Tooltip
-            .style("visibility", "visible")
+          tooltip.style("display", null);
+
           d3.select(this)
             .style("stroke", "black")
-            .style("opacity", 1)
+            .style("opacity", 1);
         }
 
         var mousemove = function(d) {
+          tooltip.select("rect")
+            .attr("width", "200px")
+            .attr("height", "100px")
+            .style("stroke", "black")
+            .attr("fill", "#d3d3d3")
+            .style("opacity", 1);
 
           var numberToShow;
 
@@ -238,28 +267,38 @@
           }
 
           if (scoring[d.properties.name]) {
-            Tooltip
+            tooltip.select("rect")
+              .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
+                d3.mouse(this)[1] + ")");
+
+            tooltip.select(".tiptext")
               .html(scoring[d.properties.name].totalPlayers +
                 " professional hockey players from<br>" + d.properties.name +
                 " have scored a total of " + numberToShow + " " + selectedGroup.toLowerCase() + ".")
-              .attr("left", (d3.event.pageX) + "px")
-              .attr("top", (d3.event.pageY - 28) + "px");
+              .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
+                (d3.mouse(this)[1] + 20) + ")");
           } else {
-            Tooltip
+            tooltip.select("rect")
+              .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
+                d3.mouse(this)[1] + ")");
+
+            tooltip.select(".tiptext")
               .html("No professional hockey players<br>have been born in " +
-                d.properties.name + ".")
-              .attr("left", (d3.event.pageX) + "px")
-              .attr("top", (d3.event.pageY - 28) + "px");
+                d.properties.name + ".</br>")
+              .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
+                (d3.mouse(this)[1] + 20) + ")");
           }
         }
 
         var mouseleave = function(d) {
-          Tooltip
-            .style("visibility", "hidden")
+          tooltip.style("display", "none");
+
           d3.select(this)
             .style("stroke", "white")
-            .style("opacity", 1)
+            .style("opacity", 1);
         }
+
+        svg.select(".countries").remove();
 
         // Draw the map
         svg.append("g")
@@ -286,9 +325,12 @@
             }
           })
           .attr("d", path)
+          .style("stroke", "white")
+          .style("opacity", 1)
           .on("mouseover", mouseover)
           .on("mousemove", mousemove)
           .on("mouseleave", mouseleave);
+
       }
 
       // When the button is changed, run the updateChart function
