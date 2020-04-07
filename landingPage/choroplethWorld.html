@@ -99,7 +99,7 @@
 
     // Load external data and boot
     d3.queue()
-      .defer(d3.json, "http://enjalot.github.io/wwsd/data/world/world-110m.geojson")
+      .defer(d3.json, "https://enjalot.github.io/wwsd/data/world/world-110m.geojson")
       .defer(d3.csv, "exp_scoring.csv")
       .await(ready);
 
