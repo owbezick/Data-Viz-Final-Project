@@ -5,8 +5,8 @@ width = 960 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom;
 
 // Append the svg canvas
-var svg = d3.select("#gametypes").append("svg")
-.attr("width", 210 + width + margin.left + margin.right)
+var gameLine = d3.select("#gametypes").append("svg")
+.attr("width", 220 + width + margin.left + margin.right)
 .attr("height", height + margin.top + margin.bottom + 100)
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -33,12 +33,6 @@ var lineGames = d3.line()
 .x(d => x(d.value.year))
 .y(d => y(d.value.games))
 .curve(d3.curveLinear);
-
-// Title
-svg.append('text')
-.text('Game Types Over Time')
-.attr('x', 375)
-.attr('y', 0);
 
 var parseTime = d3.timeParse("%Y");
 // Create data set: df_scoring
@@ -73,7 +67,7 @@ data = d3.csv("Teams.csv").then(data => {
   y.domain([0, d3.max(sumYearlyData, d => d.value.games)]);
 
   // Add the x-axis
-  svg.append("g")
+  gameLine.append("g")
   .attr("class", "axis axis--x")
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(x))
@@ -86,7 +80,7 @@ data = d3.csv("Teams.csv").then(data => {
   .text("Year");
 
   // Add the y-axis
-  svg.append("g")
+  gameLine.append("g")
   .attr("class", "axis axis--y")
   .call(d3.axisLeft(y))
   .append("text")
@@ -98,62 +92,59 @@ data = d3.csv("Teams.csv").then(data => {
   .text("Total Games")
 
 
-  var mouseG = svg.append("g")
+  var mouseGGames = gameLine.append("g")
   .attr("class", "mouse-over-effects");
 
-  var mousePerLine = mouseG.selectAll('.mouse-per-line')
+  var mousePerLineGames = mouseGGames.selectAll('.mouse-per-line')
   .data(sumYearlyData)
   .enter()
   .append("g")
   .attr("class", "mouse-per-line");
 
   // Append Circles
-  mousePerLine.append("circle")
-  .attr("r", 7)
-  .style("stroke", "black")
-  .style("fill", "none")
+  mousePerLineGames.append("circle")
+  .attr("r", 5)
+  .style("stroke", "#d73027")
+  .style("fill", "#d73027")
   .style("stroke-width", "1px")
-  .style("fill-opacity", "0")
   .attr("class", "line-circle");
 
-  mousePerLine.append("circle")
-  .attr("r", 7)
-  .style("stroke", "black")
-  .style("fill", "none")
+  mousePerLineGames.append("circle")
+  .attr("r", 5)
+  .style("stroke", "#4575b4")
+  .style("fill", "#4575b4")
   .style("stroke-width", "1px")
-  .style("fill-opacity", "0")
   .attr("class", "line-circle1");
 
-  mousePerLine.append("circle")
-  .attr("r", 7)
-  .style("stroke", "black")
-  .style("fill", "none")
+  mousePerLineGames.append("circle")
+  .attr("r", 5)
+  .style("stroke", "#1a9850")
+  .style("fill", "#1a9850")
   .style("stroke-width", "1px")
-  .style("fill-opacity", "0")
   .attr("class", "line-circle2");
 
   // Append Labels
-  mousePerLine.append("text")
+  mousePerLineGames.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel")
   .text("");
 
-  mousePerLine.append("text")
+  mousePerLineGames.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel1")
   .text("");
 
-  mousePerLine.append("text")
+  mousePerLineGames.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel2")
   .text("");
 
-  mouseG.append("line") // this is the black vertical line to follow mouse
+  mouseGGames.append("line") // this is the black vertical line to follow mouse
   .attr("class", "mouse-line")
   .style("stroke", "black")
   .style("stroke-width", "1px");
 
-  mouseG.append('svg:rect')
+  mouseGGames.append('gameLine:rect')
   .attr('width', width)
   .attr('height', height)
   .attr('fill', 'none')
@@ -213,19 +204,19 @@ data = d3.csv("Teams.csv").then(data => {
   });
 
   // Add the line
-  var pathovertimeGames = svg.append("path")
+  var pathovertimeGames = gameLine.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line")
   .attr("d", d => lineovertimeGames(d))
   .style("stroke", "#4575b4");
 
-  var pathGame = svg.append("path")
+  var pathGame = gameLine.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line games")
   .attr("d", d => lineGames(d))
   .style("stroke", "#d73027");
 
-  var pathshootouts = svg.append("path")
+  var pathshootouts = gameLine.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line shootouts")
   .attr("d", d => lineShootouts(d))
