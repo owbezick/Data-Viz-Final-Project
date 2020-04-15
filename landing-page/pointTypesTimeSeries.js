@@ -62,7 +62,7 @@ data = d3.csv("Scoring.csv").then(data => {
     }
   })
   .entries(data);
-  console.long(sumYearlyData)
+  //console.log(sumYearlyData)
   // Sort sum_yearly_goals by year
   sumYearlyData.sort(function(x, y){
     return d3.ascending(x.value.year, y.value.year);
@@ -98,17 +98,17 @@ data = d3.csv("Scoring.csv").then(data => {
   .text("Totals")
 
 
-  var mouseG = pointTypesTimeSeries.append("g")
+  var mouseGPoints = pointTypesTimeSeries.append("g")
   .attr("class", "mouse-over-effects");
 
-  var mousePerLine = mouseG.selectAll('.mouse-per-line')
+  var mousePerLinePoints = mouseGPoints.selectAll('.mouse-per-line-points')
   .data(sumYearlyData)
   .enter()
   .append("g")
   .attr("class", "mouse-per-line");
 
   // Append Circles
-  mousePerLine.append("circle")
+  mousePerLinePoints.append("circle")
   .attr("r", 7)
   .style("stroke", "black")
   .style("fill", "none")
@@ -116,7 +116,7 @@ data = d3.csv("Scoring.csv").then(data => {
   .style("fill-opacity", "0")
   .attr("class", "line-circle");
 
-  mousePerLine.append("circle")
+  mousePerLinePoints.append("circle")
   .attr("r", 7)
   .style("stroke", "black")
   .style("fill", "none")
@@ -124,7 +124,7 @@ data = d3.csv("Scoring.csv").then(data => {
   .style("fill-opacity", "0")
   .attr("class", "line-circle1");
 
-  mousePerLine.append("circle")
+  mousePerLinePoints.append("circle")
   .attr("r", 7)
   .style("stroke", "black")
   .style("fill", "none")
@@ -133,27 +133,27 @@ data = d3.csv("Scoring.csv").then(data => {
   .attr("class", "line-circle2");
 
   // Append Labels
-  mousePerLine.append("text")
+  mousePerLinePoints.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel")
   .text("");
 
-  mousePerLine.append("text")
+  mousePerLinePoints.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel1")
   .text("");
 
-  mousePerLine.append("text")
+  mousePerLinePoints.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel2")
   .text("");
 
-  mouseG.append("line") // this is the black vertical line to follow mouse
+  mouseGPoints.append("line") // this is the black vertical line to follow mouse
   .attr("class", "mouse-line")
   .style("stroke", "black")
   .style("stroke-width", "1px");
 
-  mouseG.append('pointTypesTimeSeries:rect')
+  mouseGPoints.append('pointTypesTimeSeries:rect')
   .attr('width', width)
   .attr('height', height)
   .attr('fill', 'none')
