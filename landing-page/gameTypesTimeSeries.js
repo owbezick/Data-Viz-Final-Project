@@ -5,7 +5,7 @@ width = 960 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom;
 
 // Append the svg canvas
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#gametypes").append("svg")
 .attr("width", 210 + width + margin.left + margin.right)
 .attr("height", height + margin.top + margin.bottom + 100)
 .append("g")
@@ -19,35 +19,35 @@ z = d3.scaleOrdinal(d3.schemeCategory10);
 bisectDate = d3.bisector(function(d) { return d.value.year; }).left;
 
 // d3 line generator
-var linegoals = d3.line()
+var lineovertimeGames = d3.line()
 .x(d => x(d.value.year))
-.y(d => y(d.value.goals))
+.y(d => y(d.value.overtimeGames))
 .curve(d3.curveLinear);
 
-var linepoints = d3.line()
+var lineShootouts = d3.line()
 .x(d => x(d.value.year))
-.y(d => y(d.value.points))
+.y(d => y(d.value.shootouts))
 .curve(d3.curveLinear);
 
-var lineassists = d3.line()
+var lineGames = d3.line()
 .x(d => x(d.value.year))
-.y(d => y(d.value.assists))
+.y(d => y(d.value.games))
 .curve(d3.curveLinear);
 
 // Title
 svg.append('text')
-.text('Points Over Time')
+.text('Game Types Over Time')
 .attr('x', 375)
 .attr('y', 0);
 
 var parseTime = d3.timeParse("%Y");
 // Create data set: df_scoring
-data = d3.csv("Scoring.csv").then(data => {
+data = d3.csv("Teams.csv").then(data => {
   data.forEach(d => {
     d.year = parseTime(d.year);
-    d.goals = +d.G;
-    d.assists = +d.A;
-    d.points = +d.Pts
+    d.overtimeGames = +d.OTL;
+    d.games = +d.G;
+    d.shootouts = +d.SoL
   });
 
   // Create data set: sumYearlyData
@@ -56,21 +56,21 @@ data = d3.csv("Scoring.csv").then(data => {
   .rollup(v => {
     return {
       year: v[0].year,
-      goals: d3.sum(v, d => d.goals),
-      points: d3.sum(v, d => d.points),
-      assists: d3.sum(v, d => d.assists),
+      overtimeGames: d3.sum(v, d => d.overtimeGames),
+      shootouts: d3.sum(v, d => d.shootouts),
+      games: d3.sum(v, d => d.games),
     }
   })
   .entries(data);
 
-  // Sort sum_yearly_goals by year
+  // Sort sum_yearly_overtimeGames by year
   sumYearlyData.sort(function(x, y){
     return d3.ascending(x.value.year, y.value.year);
   })
 
   // Scale the range of the data
   x.domain(d3.extent(sumYearlyData, d => d.value.year));
-  y.domain([0, d3.max(sumYearlyData, d => d.value.points)]);
+  y.domain([0, d3.max(sumYearlyData, d => d.value.games)]);
 
   // Add the x-axis
   svg.append("g")
@@ -95,7 +95,7 @@ data = d3.csv("Scoring.csv").then(data => {
   .attr("dy", "1em")
   .attr('font-size', '18px')
   .attr("fill", "#000")
-  .text("Totals")
+  .text("Total Games")
 
 
   var mouseG = svg.append("g")
@@ -174,62 +174,62 @@ data = d3.csv("Scoring.csv").then(data => {
     d3.select(".line-circle")
     .attr("cx", mouse[0])
     .attr("cy", function (){
-      return y(yVar.value.assists);
+      return y(yVar.value.games);
     });
 
     d3.select(".tooltiplabel")
     .attr("x", mouse[0] + 10)
     .attr("y", function (){
-      return y(yVar.value.assists);
+      return y(yVar.value.games);
     })
-    .text(yVar.value.assists + " Assists in " + format(xVar));
+    .text(yVar.value.games + " Games in " + format(xVar));
 
     d3.select(".line-circle1")
     .attr("cx", mouse[0])
     .attr("cy", function (){
-      return y(yVar.value.goals);
+      return y(yVar.value.overtimeGames);
     });
 
     d3.select(".tooltiplabel1")
     .attr("x", mouse[0] + 10)
     .attr("y", function (){
-      return y(yVar.value.goals);
+      return y(yVar.value.overtimeGames);
     })
-    .text(yVar.value.goals + " Goals in " + format(xVar));
+    .text(yVar.value.overtimeGames + " Overtime Games in " + format(xVar));
 
 
     d3.select(".line-circle2")
     .attr("cx", mouse[0])
     .attr("cy", function (){
-      return y(yVar.value.points);
+      return y(yVar.value.shootouts);
     });
 
     d3.select(".tooltiplabel2")
     .attr("x", mouse[0] + 10)
     .attr("y", function (){
-      return y(yVar.value.points);
+      return y(yVar.value.shootouts);
     })
-    .text(yVar.value.points + " Points in " + format(xVar));
+    .text(yVar.value.shootouts + " Shootouts in " + format(xVar));
   });
 
   // Add the line
-  var pathgoals = svg.append("path")
+  var pathovertimeGames = svg.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line")
-  .attr("d", d => linegoals(d))
-  .style("stroke", "#b3e2cd");
+  .attr("d", d => lineovertimeGames(d))
+  .style("stroke", "#4575b4");
 
   var pathGame = svg.append("path")
   .datum(sumYearlyData) // bind data
-  .attr("class", "line assists")
-  .attr("d", d => lineassists(d))
-  .style("stroke", "#cbd5e8");
+  .attr("class", "line games")
+  .attr("d", d => lineGames(d))
+  .style("stroke", "#d73027");
 
-  var pathpoints = svg.append("path")
+  var pathshootouts = svg.append("path")
   .datum(sumYearlyData) // bind data
-  .attr("class", "line points")
-  .attr("d", d => linepoints(d))
-  .style("stroke", "#fdcdac");
+  .attr("class", "line shootouts")
+  .attr("d", d => lineShootouts(d))
+  .style("stroke", "#1a9850");
 
   function getIndexinRollup(key){
     format = d3.timeFormat("%Y");
