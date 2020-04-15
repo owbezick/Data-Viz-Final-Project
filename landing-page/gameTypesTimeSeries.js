@@ -35,6 +35,7 @@ var lineGames = d3.line()
 .curve(d3.curveLinear);
 
 var parseTime = d3.timeParse("%Y");
+
 // Create data set: df_scoring
 data = d3.csv("Teams.csv").then(data => {
   data.forEach(d => {
@@ -92,31 +93,31 @@ data = d3.csv("Teams.csv").then(data => {
   .text("Total Games")
 
 
-  var mouseGGames = gameLine.append("g")
-  .attr("class", "mouse-over-effects");
+  var mouseGGGames = gameLine.append("g")
+  .attr("class", "mouseG-over-effects");
 
-  var mousePerLineGames = mouseGGames.selectAll('.mouse-per-line')
+  var mouseGPerLineGames = mouseGGGames.selectAll('.mouseG-per-line')
   .data(sumYearlyData)
   .enter()
   .append("g")
-  .attr("class", "mouse-per-line");
+  .attr("class", "mouseG-per-line");
 
   // Append Circles
-  mousePerLineGames.append("circle")
+  mouseGPerLineGames.append("circle")
   .attr("r", 5)
   .style("stroke", "#d73027")
   .style("fill", "#d73027")
   .style("stroke-width", "1px")
   .attr("class", "line-circle");
 
-  mousePerLineGames.append("circle")
+  mouseGPerLineGames.append("circle")
   .attr("r", 5)
   .style("stroke", "#4575b4")
   .style("fill", "#4575b4")
   .style("stroke-width", "1px")
   .attr("class", "line-circle1");
 
-  mousePerLineGames.append("circle")
+  mouseGPerLineGames.append("circle")
   .attr("r", 5)
   .style("stroke", "#1a9850")
   .style("fill", "#1a9850")
@@ -124,83 +125,83 @@ data = d3.csv("Teams.csv").then(data => {
   .attr("class", "line-circle2");
 
   // Append Labels
-  mousePerLineGames.append("text")
+  mouseGPerLineGames.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel")
   .text("");
 
-  mousePerLineGames.append("text")
+  mouseGPerLineGames.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel1")
   .text("");
 
-  mousePerLineGames.append("text")
+  mouseGPerLineGames.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel2")
   .text("");
 
-  mouseGGames.append("line") // this is the black vertical line to follow mouse
-  .attr("class", "mouse-line")
+  mouseGGGames.append("line") // this is the black vertical line to follow mouseG
+  .attr("class", "mouseG-line")
   .style("stroke", "black")
   .style("stroke-width", "1px");
 
-  mouseGGames.append('gameLine:rect')
+  mouseGGGames.append('gameLine:rect')
   .attr('width', width)
   .attr('height', height)
   .attr('fill', 'none')
   .attr('pointer-events', 'all')
-  .on('mousemove', function() { // mouse moving over canvas
-    var mouse = d3.mouse(this);
-    d3.select(".mouse-line")
-    .attr("x1", mouse[0])
+  .on('mouseGmove', function() { // mouseG moving over canvas
+    var mouseG = d3.mouseG(this);
+    d3.select(".mouseG-line")
+    .attr("x1", mouseG[0])
     .attr("y1", 0)
     .attr("y2", height)
-    .attr("x2", mouse[0]);
+    .attr("x2", mouseG[0]);
 
     format = d3.timeFormat("%Y");
-    var xVar = parseTime(format(x.invert(mouse[0])));
-    var yVar = sumYearlyData[getIndexinRollup(xVar)];
+    var xVarG = parseTime(format(x.invert(mouseG[0])));
+    var yVarG = sumYearlyData[getIndexinRollup(xVarG)];
 
     // Append Circles & Labels
     d3.select(".line-circle")
-    .attr("cx", mouse[0])
+    .attr("cx", mouseG[0])
     .attr("cy", function (){
-      return y(yVar.value.games);
+      return y(yVarG.value.games);
     });
 
     d3.select(".tooltiplabel")
-    .attr("x", mouse[0] + 10)
+    .attr("x", mouseG[0] + 10)
     .attr("y", function (){
-      return y(yVar.value.games);
+      return y(yVarG.value.games);
     })
-    .text(yVar.value.games + " Games in " + format(xVar));
+    .text(yVarG.value.games + " Games in " + format(xVarG));
 
     d3.select(".line-circle1")
-    .attr("cx", mouse[0])
+    .attr("cx", mouseG[0])
     .attr("cy", function (){
-      return y(yVar.value.overtimeGames);
+      return y(yVarG.value.overtimeGames);
     });
 
     d3.select(".tooltiplabel1")
-    .attr("x", mouse[0] + 10)
+    .attr("x", mouseG[0] + 10)
     .attr("y", function (){
-      return y(yVar.value.overtimeGames);
+      return y(yVarG.value.overtimeGames);
     })
-    .text(yVar.value.overtimeGames + " Overtime Games in " + format(xVar));
+    .text(yVarG.value.overtimeGames + " Overtime Games in " + format(xVarG));
 
 
     d3.select(".line-circle2")
-    .attr("cx", mouse[0])
+    .attr("cx", mouseG[0])
     .attr("cy", function (){
-      return y(yVar.value.shootouts);
+      return y(yVarG.value.shootouts);
     });
 
     d3.select(".tooltiplabel2")
-    .attr("x", mouse[0] + 10)
+    .attr("x", mouseG[0] + 10)
     .attr("y", function (){
-      return y(yVar.value.shootouts);
+      return y(yVarG.value.shootouts);
     })
-    .text(yVar.value.shootouts + " Shootouts in " + format(xVar));
+    .text(yVarG.value.shootouts + " Shootouts in " + format(xVarG));
   });
 
   // Add the line
