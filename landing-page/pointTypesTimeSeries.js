@@ -5,7 +5,7 @@ width = 960 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom;
 
 // Append the svg canvas
-var svg = d3.select("#pointtypes").append("svg")
+var pointTypesTimeSeries = d3.select("#pointtypes").append("svg")
 .attr("width", 210 + width + margin.left + margin.right)
 .attr("height", height + margin.top + margin.bottom + 100)
 .append("g")
@@ -35,7 +35,7 @@ var lineassists = d3.line()
 .curve(d3.curveLinear);
 
 // Title
-svg.append('text')
+pointTypesTimeSeries.append('text')
 .text('Points Over Time')
 .attr('x', 375)
 .attr('y', 0);
@@ -62,7 +62,7 @@ data = d3.csv("Scoring.csv").then(data => {
     }
   })
   .entries(data);
-
+  console.long(sumYearlyData)
   // Sort sum_yearly_goals by year
   sumYearlyData.sort(function(x, y){
     return d3.ascending(x.value.year, y.value.year);
@@ -73,7 +73,7 @@ data = d3.csv("Scoring.csv").then(data => {
   y.domain([0, d3.max(sumYearlyData, d => d.value.points)]);
 
   // Add the x-axis
-  svg.append("g")
+  pointTypesTimeSeries.append("g")
   .attr("class", "axis axis--x")
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(x))
@@ -86,7 +86,7 @@ data = d3.csv("Scoring.csv").then(data => {
   .text("Year");
 
   // Add the y-axis
-  svg.append("g")
+  pointTypesTimeSeries.append("g")
   .attr("class", "axis axis--y")
   .call(d3.axisLeft(y))
   .append("text")
@@ -98,7 +98,7 @@ data = d3.csv("Scoring.csv").then(data => {
   .text("Totals")
 
 
-  var mouseG = svg.append("g")
+  var mouseG = pointTypesTimeSeries.append("g")
   .attr("class", "mouse-over-effects");
 
   var mousePerLine = mouseG.selectAll('.mouse-per-line')
@@ -153,7 +153,7 @@ data = d3.csv("Scoring.csv").then(data => {
   .style("stroke", "black")
   .style("stroke-width", "1px");
 
-  mouseG.append('svg:rect')
+  mouseG.append('pointTypesTimeSeries:rect')
   .attr('width', width)
   .attr('height', height)
   .attr('fill', 'none')
@@ -213,19 +213,19 @@ data = d3.csv("Scoring.csv").then(data => {
   });
 
   // Add the line
-  var pathgoals = svg.append("path")
+  var pathgoals = pointTypesTimeSeries.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line")
   .attr("d", d => linegoals(d))
   .style("stroke", "#b3e2cd");
 
-  var pathGame = svg.append("path")
+  var pathGame = pointTypesTimeSeries.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line assists")
   .attr("d", d => lineassists(d))
   .style("stroke", "#cbd5e8");
 
-  var pathpoints = svg.append("path")
+  var pathpoints = pointTypesTimeSeries.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line points")
   .attr("d", d => linepoints(d))
