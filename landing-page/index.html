@@ -13,13 +13,30 @@
 <body>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <style>
-  .axis--x path {
-    stroke: black;
+  .y-axis line {
+  	opatype:.2;
+  }
+  .y-axis path {
+  	display:none;
   }
   .line {
-    fill: none;
-    stroke: black;
-    stroke-width: 3px;
+  	fill: none;
+  	stroke-width: 1.5px;
+  	opatype:.75;
+  }
+  .overlay {
+  	fill: none;
+  	pointer-events: all;
+  }
+  .lineHoverText {
+  	text-shadow:
+  	-2px -2px 0 #fff,
+  	2px -2px 0 #fff,
+  	-2px 2px 0 #fff,
+  	2px 2px 0 #fff;
+  }
+  .hoverCircle {
+  	opatype: .75;
   }
   </style>
   <!-- partial:index.partial.html -->
@@ -62,17 +79,15 @@
           <div class="panel__content">
             <h1 class="panel__headline"><i class="fa fa-bolt"></i>&nbsp;Game Types</h1>
             <div class="panel__block"></div>
-
+            <font style="font-size:11px;">Change metric:</font>
+            <select id="selectbox">
+            	<option value="_1">Totals</option>
+            	<option value="_2">Per Game</option>
+            </select>
+            <svg id="chart" width="850" height="450"></svg>
+            <script src = "keyStats.js"></script>
             <p>Brief Description.</p>
-            <h1 class="panel__headline"><i class="fa fa-bolt"></i>&nbsp;Points</h1>
-            <div id = "pointtypes"></div>
-            <script src="pointTypesTimeSeries.js"></script>
             <div class="panel__block"></div>
-              <!--
-              div id = "pointtypes"></div>
-            <script src="pointTypesTimeSeries.js"></script>
-            <p>Brief Description.</p>
-          -->
           </div>
         </article>
       </section>
