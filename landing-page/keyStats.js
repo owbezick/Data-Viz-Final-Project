@@ -16,7 +16,7 @@ function chart(data) {
 	})
 	console.log(data);
 	var svg = d3.select("#chart"),
-		margin = {top: 25, right: 35, bottom: 15, left: 200},
+		margin = {top: 25, right: 35, bottom: 15, left: 230},
 		width = +svg.attr("width") - margin.left - margin.right,
 		height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -37,11 +37,25 @@ function chart(data) {
 	svg.append("g")
 		.attr("class","x-axis")
 		.attr("transform", "translate(0," + (height - margin.bottom) + ")")
-		.call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")));
+		.call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y")))
+		.append("text")
+		.attr("y", -height + 30)
+		.attr("x", 100)
+		.attr("dy", "1em")
+		.attr('font-size', '25px')
+		.attr("fill", "#000")
+		.text("Values");
 
 	svg.append("g")
 		.attr("class", "y-axis")
-		.attr("transform", "translate(" + margin.left + ",0)");
+		.attr("transform", "translate(" + margin.left + ",0)")
+		.append("text")
+	  .attr("y", height)
+	  .attr("x", width/2.5)
+	  .attr("dy", "1em")
+	  .attr("fill", "#000")
+	  .attr('font-size', '25px')
+	  .text("Year");
 
 	var focus = svg.append("g")
 		.attr("class", "focus")
@@ -152,9 +166,9 @@ function chart(data) {
 
 			focus.selectAll(".lineHoverText")
 				.attr("x", 0)
-				.attr("y", 13)
-				.attr("font-size",20)
-				.text(e => e + " " + formatValue(d[e]));
+				.attr("y", 50)
+				.attr("font-size", 20)
+				.text(e => e + " " + formatValue(d[e]))
 		}
 	}
 
