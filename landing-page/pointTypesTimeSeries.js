@@ -34,12 +34,6 @@ var lineassists = d3.line()
 .y(d => y(d.value.assists))
 .curve(d3.curveLinear);
 
-// Title
-pointTypesTimeSeries.append('text')
-.text('Points Over Time')
-.attr('x', 375)
-.attr('y', 0);
-
 var parseTime = d3.timeParse("%Y");
 // Create data set: df_scoring
 data = d3.csv("Scoring.csv").then(data => {
@@ -98,138 +92,134 @@ data = d3.csv("Scoring.csv").then(data => {
   .text("Totals")
 
 
-  var mousePGPoints = pointTypesTimeSeries.append("g")
-  .attr("class", "mouseP-over-effects");
+  var mouseGPoints = pointTypesTimeSeries.append("g")
+  .attr("class", "mouse-over-effects");
 
-  var mousePPerLinePoints = mousePGPoints.selectAll('.mouseP-per-line-points')
+  var mousePerLinePoints = mouseGPoints.selectAll('.mouse-per-line-points')
   .data(sumYearlyData)
   .enter()
   .append("g")
-  .attr("class", "mouseP-per-line");
+  .attr("class", "mouse-per-line");
 
   // Append Circles
-  mousePPerLinePoints.append("circle")
-  .attr("r", 7)
-  .style("stroke", "black")
-  .style("fill", "none")
+  mousePerLinePoints.append("circle")
+  .attr("r", 5)
+  .style("stroke", "#d73027")
+  .style("fill", "#d73027")
   .style("stroke-width", "1px")
-  .style("fill-opacity", "0")
   .attr("class", "line-circle-assists");
 
-  mousePPerLinePoints.append("circle")
-  .attr("r", 7)
-  .style("stroke", "black")
-  .style("fill", "none")
+  mousePerLinePoints.append("circle")
+  .attr("r", 5)
+  .style("stroke", "#1a9850")
+  .style("fill", "#1a9850")
   .style("stroke-width", "1px")
-  .style("fill-opacity", "0")
   .attr("class", "line-circle-goals");
 
-  mousePPerLinePoints.append("circle")
-  .attr("r", 7)
-  .style("stroke", "black")
-  .style("fill", "none")
+  mousePerLinePoints.append("circle")
+  .attr("r", 5)
+  .style("stroke", "#4575b4")
+  .style("fill", "#4575b4")
   .style("stroke-width", "1px")
-  .style("fill-opacity", "0")
   .attr("class", "line-circle-points");
 
   // Append Labels
-  mousePPerLinePoints.append("text")
+  mousePerLinePoints.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel")
   .text("");
 
-  mousePPerLinePoints.append("text")
+  mousePerLinePoints.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel1")
   .text("");
 
-  mousePPerLinePoints.append("text")
+  mousePerLinePoints.append("text")
   .style("stroke-width", "1px")
   .attr("class", "tooltiplabel2")
   .text("");
 
-  mousePGPoints.append("line") // this is the black vertical line to follow mouseP
-  .attr("class", "mouseP-line-points")
+  mouseGPoints.append("line") // this is the black vertical line to follow mouse
+  .attr("class", ".mouse-line")
   .style("stroke", "black")
   .style("stroke-width", "1px");
 
-  mousePGPoints.append('pointTypesTimeSeries:rect')
+  mouseGPoints.append('pointTypesTimeSeries:rect')
   .attr('width', width)
   .attr('height', height)
   .attr('fill', 'none')
   .attr('pointer-events', 'all')
-  .on('mousePmovepoits', function() { // mouseP moving over canvas
-    var mouseP = d3.mouseP(this);
-    d3.select(".mouseP-line-points")
-    .attr("x1", mouseP[0])
+  .on('mousemove', function() { // mouse moving over canvas
+    var mouse = d3.mouse(this);
+    d3.select(".mouse-line")
+    .attr("x1", mouse[0])
     .attr("y1", 0)
     .attr("y2", height)
-    .attr("x2", mouseP[0]);
+    .attr("x2", mouse[0]);
 
     format = d3.timeFormat("%Y");
-    var xVarP = parseTime(format(x.invert(mouseP[0])));
-    var yVarP = sumYearlyData[getIndexinRollup(xVarP)];
-
-    // Append Circles & Labels
-    d3.select(".line-circle-assists")
-    .attr("cx", mouseP[0])
-    .attr("cy", function (){
-      return y(yVarP.value.assists);
-    });
-
-    d3.select(".tooltiplabel")
-    .attr("x", mouseP[0] + 10)
-    .attr("y", function (){
-      return y(yVarP.value.assists);
-    })
-    .text(yVarP.value.assists + " Assists in " + format(xVarP));
-
-    d3.select(".line-circle-goals")
-    .attr("cx", mouseP[0])
-    .attr("cy", function (){
-      return y(yVarP.value.goals);
-    });
-
-    d3.select(".tooltiplabel1")
-    .attr("x", mouseP[0] + 10)
-    .attr("y", function (){
-      return y(yVarP.value.goals);
-    })
-    .text(yVarP.value.goals + " Goals in " + format(xVarP));
-
-
-    d3.select(".line-circle-points")
-    .attr("cx", mouseP[0])
-    .attr("cy", function (){
-      return y(yVarP.value.points);
-    });
-
-    d3.select(".tooltiplabel2")
-    .attr("x", mouseP[0] + 10)
-    .attr("y", function (){
-      return y(yVarP.value.points);
-    })
-    .text(yVarP.value.points + " Points in " + format(xVarP));
-  });
+    var xVar = parseTime(format(x.invert(mouse[0])));
+    var yVar = sumYearlyData[getIndexinRollup(xVar)];
 
   // Add the line
   var pathgoals = pointTypesTimeSeries.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line")
   .attr("d", d => linegoals(d))
-  .style("stroke", "#b3e2cd");
+  .style("stroke", "#1a9850");
 
   var pathGame = pointTypesTimeSeries.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line assists")
   .attr("d", d => lineassists(d))
-  .style("stroke", "#cbd5e8");
+  .style("stroke", "#d73027");
 
   var pathpoints = pointTypesTimeSeries.append("path")
   .datum(sumYearlyData) // bind data
   .attr("class", "line points")
   .attr("d", d => linepoints(d))
-  .style("stroke", "#fdcdac");
+  .style("stroke", "#4575b4");
+  // Append Circles & Labels
+  d3.select(".line-circle-assists")
+  .attr("cx", mouse[0])
+  .attr("cy", function (){
+    return y(yVar.value.assists);
+  });
+
+  d3.select(".tooltiplabel")
+  .attr("x", mouse[0] + 10)
+  .attr("y", function (){
+    return y(yVar.value.assists);
+  })
+  .text(yVar.value.assists + " Assists in " + format(xVar));
+
+  d3.select(".line-circle-goals")
+  .attr("cx", mouse[0])
+  .attr("cy", function (){
+    return y(yVar.value.goals);
+  });
+
+  d3.select(".tooltiplabel1")
+  .attr("x", mouse[0] + 10)
+  .attr("y", function (){
+    return y(yVar.value.goals);
+  })
+  .text(yVar.value.goals + " Goals in " + format(xVar));
+
+
+  d3.select(".line-circle-points")
+  .attr("cx", mouse[0])
+  .attr("cy", function (){
+    return y(yVar.value.points);
+  });
+
+  d3.select(".tooltiplabel2")
+  .attr("x", mouse[0] + 10)
+  .attr("y", function (){
+    return y(yVar.value.points);
+  })
+  .text(yVar.value.points + " Points in " + format(xVar));
+});
 
   function getIndexinRollup(key){
     format = d3.timeFormat("%Y");
