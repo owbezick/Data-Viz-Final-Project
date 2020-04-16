@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Let's Do That Hockey</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <style>
+  .y-axis line {
+  	opatype:.2;
+  }
+  .y-axis path {
+  	display:none;
+  }
+  .line {
+  	fill: none;
+  	stroke-width: 3px;
+  	opatype:.75;
+  }
+  .overlay {
+  	fill: none;
+  	pointer-events: all;
+  }
+  .hoverCircle {
+  	opatype: 1;
+  }
+  </style>
+  <!-- partial:index.partial.html -->
+  <nav class="nav">
+    <div class="burger">
+      <div class="burger__patty"></div>
+    </div>
+
+    <ul class="nav__list">
+      <li class="nav__item">
+        <a href="#1" class="nav__link c-blue"><i class="fa fa-info"></i></a>
+      </li>
+      <li class="nav__item">
+        <a href="#2" class="nav__link c-yellow scrolly"><i class="fa fa-bolt"></i></a>
+      </li>
+      <li class="nav__item">
+        <a href="#3" class="nav__link c-red"><i class="fa fa-users"></i></a>
+      </li>
+      <li class="nav__item">
+        <a href="#4" class="nav__link c-green"><i class="fa fa-map-marker"></i></a>
+      </li>
+    </ul>
+  </nav>
+
+  <section class="panel b-blue" id="1">
+    <article class="panel__wrapper">
+      <div class="panel__content">
+        <h1 class="panel__headline"><i class="fa fa-info"></i>&nbsp;Let's Do That Hockey</h1>
+        <div class="panel__block"></div>
+        <IMG SRC="letsDoThatHockey.gif">
+          <p>This site tells the story of profesional hockey over the years 1909 to 2011 using data from
+            <a href="https://www.kaggle.com/open-source-sports/professional-hockey-database" target="_blank" rel="nofollow">Kaggle's Proffesional Hockey Database</a>.</p>
+            <p> The Hockey Database is a collection of historical statistics from men's professional hockey teams in North America. </p>
+            <p> Authors: Owen Bezick & Daniel Cowan </p>
+          </div>
+        </article>
+      </section>
+      <section class="panel b-yellow" id="2">
+        <article class="panel__wrapper">
+          <div class="panel__content">
+            <h1 class="panel__headline"><i class="fa fa-bolt"></i>&nbsp;Key Stats</h1>
+            <div class="panel__block"></div>
+
+            <font style="font-size:15px;">Change metric:</font>
+            <select id="selectbox">
+            	<option value="_Total">Totals</option>
+            	<option value="_Per_Game">Per Game</option>
+            </select>
+
+            <svg id="chart" width="1300" height="550"></svg>
+            <script src = "keyStats.js"></script>
+
+            <p>Brief Description.</p>
+            <div class="panel__block"></div>
+          </div>
+        </article>
+      </section>
+      <section class="panel b-red" id="3">
+        <article class="panel__wrapper">
+          <div class="panel__content">
+            <h1 class="panel__headline"><i class="fa fa-users"></i>&nbsp;Top Players</h1>
+            <div class="panel__block"></div>
+            <p>Brief description.</p>
+          </div>
+        </article>
+      </section>
+      <section class="panel b-green" id="4">
+        <article class="panel__wrapper">
+          <div class="panel__content">
+            <h1 class="panel__headline"><i class="fa fa-map-marker"></i>&nbsp;On The Map</h1>
+            <div class="panel__block"></div>
+            <p>Brief Description.</p>
+          </div>
+        </article>
+      </section>
+      <!-- partial -->
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./script.js"></script>
+
+    </body>
+    </html>
