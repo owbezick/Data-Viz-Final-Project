@@ -16,7 +16,7 @@ function chart(data) {
 	})
 	console.log(data);
 	var svg = d3.select("#chart"),
-		margin = {top: 15, right: 35, bottom: 15, left: 35},
+		margin = {top: 25, right: 35, bottom: 15, left: 200},
 		width = +svg.attr("width") - margin.left - margin.right,
 		height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -111,7 +111,7 @@ function chart(data) {
 			.attr("class", "lineHoverText")
 			.style("fill", d => z(d))
 			.attr("text-anchor", "start")
-			.attr("font-size",12)
+			.attr("font-size",15)
 			.attr("dy", (_, i) => 1 + i * 2 + "em")
 			.merge(labels);
 
@@ -142,7 +142,8 @@ function chart(data) {
 
 			focus.select(".lineHoveryear")
 				.attr("transform",
-					"translate(" + x(d.year) + "," + (height + margin.bottom) + ")")
+					"translate(" + x(d.year) + "," + 15 + ")")
+				.attr("font-size",20)
 				.text(formatyear(d.year));
 
 			focus.selectAll(".hoverCircle")
@@ -150,8 +151,9 @@ function chart(data) {
 				.attr("cx", x(d.year));
 
 			focus.selectAll(".lineHoverText")
-				.attr("x", 40)
+				.attr("x", 0)
 				.attr("y", 13)
+				.attr("font-size",20)
 				.text(e => e + " " + formatValue(d[e]));
 		}
 	}

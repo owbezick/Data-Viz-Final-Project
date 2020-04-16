@@ -21,20 +21,20 @@
   }
   .line {
   	fill: none;
-  	stroke-width: 1.5px;
+  	stroke-width: 3px;
   	opatype:.75;
   }
   .overlay {
   	fill: none;
   	pointer-events: all;
   }
-  .lineHoverText {
+  /* .lineHoverText {
   	text-shadow:
   	-2px -2px 0 #fff,
   	2px -2px 0 #fff,
   	-2px 2px 0 #fff,
   	2px 2px 0 #fff;
-  }
+  } */
   .hoverCircle {
   	opatype: .75;
   }
@@ -77,15 +77,18 @@
       <section class="panel b-yellow" id="2">
         <article class="panel__wrapper">
           <div class="panel__content">
-            <h1 class="panel__headline"><i class="fa fa-bolt"></i>&nbsp;Game Types</h1>
+            <h1 class="panel__headline"><i class="fa fa-bolt"></i>&nbsp;Key Stats</h1>
             <div class="panel__block"></div>
-            <font style="font-size:11px;">Change metric:</font>
+
+            <font style="font-size:15px;">Change metric:</font>
             <select id="selectbox">
             	<option value="_1">Totals</option>
             	<option value="_2">Per Game</option>
             </select>
-            <svg id="chart" width="850" height="450"></svg>
+
+            <svg id="chart" width="1300" height="550"></svg>
             <script src = "keyStats.js"></script>
+
             <p>Brief Description.</p>
             <div class="panel__block"></div>
           </div>
