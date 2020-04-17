@@ -13,23 +13,35 @@
 <body>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <style>
+  /* Three image containers (use 25% for four, and 50% for two, etc) */
+  .column {
+    float: left;
+    width: 33.33%;
+    padding: 5px;
+  }
+  /* Clear floats after image containers */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
   .y-axis line {
-  	opatype:.2;
+    opatype:.2;
   }
   .y-axis path {
-  	display:none;
+    display:none;
   }
   .line {
-  	fill: none;
-  	stroke-width: 3px;
-  	opatype:.75;
+    fill: none;
+    stroke-width: 3px;
+    opatype:.75;
   }
   .overlay {
-  	fill: none;
-  	pointer-events: all;
+    fill: none;
+    pointer-events: all;
   }
   .hoverCircle {
-  	opatype: 1;
+    opatype: 1;
   }
   </style>
   <!-- partial:index.partial.html -->
@@ -75,8 +87,8 @@
 
             <font style="font-size:15px;">Change metric:</font>
             <select id="selectbox">
-            	<option value="_Total">Totals</option>
-            	<option value="_Per_Game">Per Game</option>
+              <option value="_Total">Totals</option>
+              <option value="_Per_Game">Per Game</option>
             </select>
 
             <svg id="chart" width="1300" height="550"></svg>
@@ -92,24 +104,72 @@
           <div class="panel__content">
             <h1 class="panel__headline"><i class="fa fa-users"></i>&nbsp;Top Players</h1>
             <div class="panel__block"></div>
-            <p>Wayne Gretzky</p>
-            <a href="Gretzky.html">
-         <img alt="Qries" src="Gretzky.jpg">
-       </a>
-          </div>
-        </article>
-      </section>
-      <section class="panel b-green" id="4">
-        <article class="panel__wrapper">
-          <div class="panel__content">
-            <h1 class="panel__headline"><i class="fa fa-map-marker"></i>&nbsp;On The Map</h1>
+            <h1> Forwards </h1>
             <div class="panel__block"></div>
-            <p>Brief Description.</p>
-          </div>
-        </article>
-      </section>
-      <!-- partial -->
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./script.js"></script>
+            <div class="row">
+              <div class="column">
+                <p> Wayne Gretzky </p>
+                <a href="Gretzky.html">
+                  <img src="Gretzky.jpg" alt="Gretzky" style="width:100%">
+                </a>
+              </div>
+              <div class="column">
+                <p> Gordie Howe </p>
+                <img src="Howe.jpg" alt="Howe" style="width:100%">
+              </div>
+              <div class="column">
+                <p> Alex Ovechkin </p>
+                <img src="Ovechkin.jpg" alt="Ovechkin" style="width:100%">
+              </div>
+            </div>
+            <div class="panel__block"></div>
+            <h1> Defensemen </h1>
+            <div class="row">
+              <div class="column">
+                <p> Bobby Orr </p>
+                <img src="Orr.jpg" alt="Orr" style="width:100%">
+              </div>
+              <div class="column">
+                <p> Niklas Lindstrom</p>
+                <img src="Lindstrom.jpg" alt="Lindstrom" style="width:100%">
+              </div>
+              <div class="column">
+                <p> Denis Potvin</p>
+                <img src="Potvin.jpg" alt="Potvin" style="width:100%">
+              </div>
+            </div>
 
-    </body>
-    </html>
+
+            <div class="panel__block"></div>
+            <h1> Goalies </h1>
+            <div class="row">
+              <div class="column">
+                <p> Martin Brodeur </p>
+                <img src="Brodeur.jpg" alt="Brodeur" style="width:100%">
+              </div>
+              <div class="column">
+                <p> Henrik Lundqvist </p>
+                <img src="Lundqvist.jpg" alt="Henrik" style="width:100%">
+              </div>
+              <div class="column">
+                <p> Carey Price </p>
+                <img src="Price.jpg" alt="Henrik" style="width:100%">
+              </div>
+              <div class="panel__block"></div>
+            </div>
+          </article>
+        </section>
+        <section class="panel b-green" id="4">
+          <article class="panel__wrapper">
+            <div class="panel__content">
+              <h1 class="panel__headline"><i class="fa fa-map-marker"></i>&nbsp;On The Map</h1>
+              <div class="panel__block"></div>
+              <p>Brief Description.</p>
+            </div>
+          </article>
+        </section>
+        <!-- partial -->
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./script.js"></script>
+
+      </body>
+      </html>

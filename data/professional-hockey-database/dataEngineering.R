@@ -33,6 +33,14 @@ top_five_players <- top_players %>%
 
 summary <- top_five_players %>%
   group_by(playerID)  %>%
-  summarise(GP = sum(GP), G = sum(G), A = sum(A), Pts = sum(Pts), PIM = sum(PIM), plusMinus = sum(plusMinus))
+  summarise(GP = sum(GP), G = sum(G), A = sum(A), Pts = sum(Pts), PIM = sum(PIM), plusMinus = sum(plusMinus)) %>%
+  filter(playerID=="gretzwa01")
 
+gamesPlayed <- summary$GP
+goals <- summary$G
+assists <- summary$A
+points <- summary$Pts
+plusMinus <- summary$plusMinus
 
+data <- data.frame(values = c(gamesPlayed, goals, assists, points, plusMinus), labels = c("Games Played", "Goals", "Assists", "Points", "Plus Minus"))
+write.csv(data, "GretzkyData.csv")
