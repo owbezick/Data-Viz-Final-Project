@@ -25,16 +25,16 @@ final_df <- combined %>%
 write_csv(final_df, "gameScoring.csv")
 
 # Variable # Value
-top_ls <- c("howego01", "gretzwa01", "jagrja01", "laflegu01", "lemiema01")
 top_players <- merge(Master, Scoring)
 top_five_players <- top_players %>%
-  filter(playerID %in% top_ls) %>%
+
   select(playerID, GP, G, A, Pts, PIM, plusMinus = `+/-`, PostG, PostGP, SOG, firstNHL, lastNHL) 
 
-summary <- top_five_players %>%
+summary <- top_players %>%
+  select(playerID, GP, G, A, Pts, PIM, plusMinus = `+/-`, PostG, PostGP, SOG, firstNHL, lastNHL) %>%
   group_by(playerID)  %>%
   summarise(GP = sum(GP), G = sum(G), A = sum(A), Pts = sum(Pts), PIM = sum(PIM), plusMinus = sum(plusMinus)) %>%
-  filter(playerID=="gretzwa01")
+  filter(playerID=="orrbo01	")
 
 gamesPlayed <- summary$GP
 goals <- summary$G
