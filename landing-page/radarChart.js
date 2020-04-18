@@ -9,7 +9,7 @@ var RadarChart = {
      factor: 1,
      factorLegend: .85,
      levels: 3,
-     maxValue: 0,
+     maxValue: 1000,
      radians: 2 * Math.PI,
      opacityArea: 0.5,
      ToRight: 5,
@@ -27,8 +27,6 @@ var RadarChart = {
       }
       }
     }
-
-    cfg.maxValue = 3000;
 
     var allAxis = (d[0].map(function(i, j){return i.area}));
     var total = allAxis.length;
@@ -77,7 +75,7 @@ var RadarChart = {
        .style("font-size", "10px")
        .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor) + ")")
        .attr("fill", "#737373")
-       .text((j+1)*3000/cfg.levels);
+       .text((j+1)*cfg.maxValue/cfg.levels);
     }
 
     series = 0;

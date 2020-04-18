@@ -124,20 +124,16 @@ h3 {
 <div id="header"></div>
 <div id="subHeader"></div>
 <div id="image">
-  <img src= "GretzkyHead.jpg" class = "center" border="5" width="10%">
+  <img src= "OviHead.jpg" class = "center" border="5"width="10%">
 </div>
 <h2>Key Stats</h2>
 <div id="chart"></div>
 <script src="RadarChart.js"></script>
 <h3>Highlight Reel</h3>
 <div class = "videoContainer">
-<iframe
-width="560"
-height="315"
-src="https://www.youtube.com/embed/RCrUcovi820"
-frameborder="0"
-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-allowfullscreen></iframe>
+
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/_gMwlEU_rhg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 </div>
 <script>
 function goBack() {
@@ -146,12 +142,12 @@ function goBack() {
 const head = d3.select("#header");
 head
 .append("h1")
-.text("Wayne Gretzky")
+.text("Alex Ovechkin")
 .classed("headerStyle", true)
 const subHead = d3.select("#subHeader");
 head
 .append("h1")
-.text('"The Great One"')
+.text('"Ovie"')
 .classed("subHeaderStyle", true)
 
 var width = 300,
@@ -166,7 +162,7 @@ var config = {
   ExtraWidthX: 300
 }
 
-d3.json("Gretzky.json", function(error, data) {
+d3.json("Howe.json", function(error, data) {
   console.log(data);
   RadarChart.draw("#chart", data, config);
 });
