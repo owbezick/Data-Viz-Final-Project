@@ -34,7 +34,7 @@ summary <- top_players %>%
   select(playerID, GP, G, A, Pts, PIM, plusMinus = `+/-`, PostG, PostGP, SOG, firstNHL, lastNHL) %>%
   group_by(playerID)  %>%
   summarise(GP = sum(GP), G = sum(G), A = sum(A), Pts = sum(Pts), PIM = sum(PIM), plusMinus = sum(plusMinus)) %>%
-  filter(playerID=="orrbo01	")
+  filter(playerID=="orrbo01")
 
 gamesPlayed <- summary$GP
 goals <- summary$G
