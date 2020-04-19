@@ -87,6 +87,12 @@
       left: 100px;
       top: 150px;
     }
+
+    .map__headline {
+      text-align: center;
+      text-decoration: underline;
+      font-weight: bold;
+    }
   </style>
   <!-- partial:index.partial.html -->
   <nav class="nav">
@@ -216,14 +222,29 @@
         <h1 class="panel__headline"><i class="fa fa-map-marker"></i>&nbsp;On The Map</h1>
         <div class="panel__block"></div>
 
+        <h2 class="map__headline">Around the World</h2>
+
+        <h3 id="buttonLabel">Select a metric below:</h3>
         <select id="worldSelectButton"></select>
-        <div id="worldMap"></div>
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
         <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
-        <svg id="chart" width="1300" height="550"></svg>
+        <svg id="worldMap" width="1300" height="550"></svg>
         <script src="choroplethWorld.js"></script>
+
+        <div class="panel__block"></div>
+
+        <h2 class="map__headline">Close to Home</h2>
+
+        <h3 id="buttonLabel">Select a metric below:</h3>
+        <select id="usaSelectButton"></select>
+        <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
+        <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
+        <script src="https://d3js.org/queue.v1.min.js"></script>
+        <svg id="usaMap" width="1300" height="550"></svg>
+        <script src="choroplethUSACanada.js"></script>
 
         <p>Brief Description.</p>
       </div>

@@ -15,35 +15,34 @@ var svg = d3.select("#worldMap")
   .attr("transform", "translate(0, 40)");
 
 // Map and projection
-var path = d3.geoPath();
+var worldPath = d3.geoPath();
 
-var projection = d3.geoNaturalEarth()
+var worldProjection = d3.geoNaturalEarth()
   .scale(width / 2 / Math.PI)
   .translate([width / 2, height / 2]);
 
-var path = d3.geoPath()
-  .projection(projection);
+var worldPath = d3.geoPath()
+  .projection(worldProjection);
 
 // Data and color scale
 var data = d3.map();
-var colorScheme = d3.schemeReds[6];
-colorScheme.unshift("#eee")
+
 var colorScale = d3.scaleThreshold()
-  .domain([1, 100, 1000, 10000, 100000, 1000000])
-  .range(colorScheme);
+  .domain([1, 100, 500, 1000, 5000, 10000, 50000, 100000, 300000])
+  .range(["#fff5f0", "#fee0d2", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#a50f15", "#67000d"]);
 
 // Legend
-var g = svg.append("g")
+var legendObj = d3.select("#worldMap")
+  .append("g")
   .attr("class", "legendThreshold")
   .attr("transform", "translate(20,20)");
 
-g.append("text")
+legendObj.append("text")
   .attr("class", "caption")
   .attr("x", 0)
-  .attr("y", -6)
-  .text("Points");
+  .attr("y", -6);
 
-var labels = ['0', '1-99', '100-999', '1000-9999', '10000-99999', '100000-999999', "> 1000000"];
+var labels = ['0', '1-100', '99-500', '501-1000', '1001-5000', "5001-10000", "10001-50000", "50001-100000", ">100000"];
 var legend = d3.legendColor()
   .labels(function(d) {
     return labels[d.i];
@@ -51,7 +50,8 @@ var legend = d3.legendColor()
   .shapePadding(4)
   .scale(colorScale);
 
-svg.select(".legendThreshold")
+d3.select("#worldMap")
+  .select(".legendThreshold")
   .call(legend);
 
 // Load external data and boot
@@ -111,8 +111,9 @@ function ready(error, topo, data) {
   console.log(scoring);
 
   // create a tooltip
-  var tooltip = svg.append("g")
-    .style("display", "none");;
+  var tooltip = d3.select("#worldMap")
+    .append("g")
+    .style("display", "none");
 
   var rect = tooltip.append("rect");
 
@@ -170,7 +171,8 @@ function ready(error, topo, data) {
   }
 
   // Draw the map
-  svg.append("g")
+  d3.select("#worldMap")
+    .append("g")
     .attr("class", "countries")
     .selectAll("path")
     .data(topo.features)
@@ -183,16 +185,13 @@ function ready(error, topo, data) {
         return "black";
       }
     })
-    .attr("d", path)
+    .attr("d", worldPath)
     .on("mouseover", mouseover)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave);
 
   // A function that updates the chart
   function update(selectedGroup, topo, data) {
-
-    d3.select(".caption")
-      .html(selectedGroup);
 
     // Three function that change the tooltip when user hover / move / leave a cell
     var mouseover = function(d) {
@@ -255,10 +254,12 @@ function ready(error, topo, data) {
         .style("opacity", 1);
     }
 
-    svg.select(".countries").remove();
+    d3.select("#worldMap")
+      .select(".countries").remove();
 
     // Draw the map
-    svg.append("g")
+    d3.select("#worldMap")
+      .append("g")
       .attr("class", "countries")
       .selectAll("path")
       .data(topo.features)
@@ -281,7 +282,7 @@ function ready(error, topo, data) {
           return "black";
         }
       })
-      .attr("d", path)
+      .attr("d", worldPath)
       .style("stroke", "white")
       .style("opacity", 1)
       .on("mouseover", mouseover)
