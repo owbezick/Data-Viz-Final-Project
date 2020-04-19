@@ -93,6 +93,18 @@
       text-decoration: underline;
       font-weight: bold;
     }
+
+    .mileLabel {
+      font-size: 12px;
+      font-weight: bold;
+      text-anchor: end;
+    }
+
+    .mileLine {
+      stroke-width: 1.5;
+      stroke: black;
+      fill: none;
+    }
   </style>
   <!-- partial:index.partial.html -->
   <nav class="nav">
@@ -220,6 +232,11 @@
     <article class="panel__wrapper">
       <div class="panel__content">
         <h1 class="panel__headline"><i class="fa fa-map-marker"></i>&nbsp;On The Map</h1>
+
+        <p>A look at the geographic history of professional hockey.</br>
+          What areas of the world produce the most points? goals? assists?</br></br>
+          NOTE: areas colored black have yet to produce a professional hockey player.</p>
+
         <div class="panel__block"></div>
 
         <h2 class="map__headline">Around the World</h2>
@@ -246,7 +263,6 @@
         <svg id="usaMap" width="1300" height="550"></svg>
         <script src="choroplethUSACanada.js"></script>
 
-        <p>Brief Description.</p>
       </div>
     </article>
   </section>
