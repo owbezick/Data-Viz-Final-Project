@@ -16,7 +16,7 @@ function chart(data) {
   console.log(data);
   var svg = d3.select("#chart"),
     margin = {
-      top: 25,
+      top: 35,
       right: 35,
       bottom: 15,
       left: 230
@@ -73,7 +73,8 @@ function chart(data) {
     .attr("y1", -height + margin.top)
     .attr("y2", 0);
 
-  focus.append("text").attr("class", "lineHoveryear")
+  focus.append("text")
+    .attr("class", "lineHoveryear")
     .attr("text-anchor", "middle")
     .attr("font-size", 12);
 
@@ -114,17 +115,35 @@ function chart(data) {
   d3.select("#chart")
     .append("text")
     .attr("class", "mileLabel")
-    .attr("y", margin.top - 1)
+    .attr("y", margin.top - 4)
     .attr("x", 668)
-    .text("1967: beginning of expansion era");
+    .text("1967: beginning of expansion era")
+    .on("click", function() {
+      window.open("https://thehockeywriters.com/june-6-1967-the-day-that-changed-hockey/")
+    })
+    .on("mouseover", function(d) {
+      d3.select(this).style("cursor", "pointer");
+    })
+    .on("mouseout", function(d) {
+      d3.select(this).style("cursor", "default");
+    });;
 
   // 1994 text
   d3.select("#chart")
     .append("text")
     .attr("class", "mileLabel")
-    .attr("y", margin.top - 1)
+    .attr("y", margin.top - 4)
     .attr("x", 872)
-    .text("1994: lockout-shortened season");
+    .text("1994: lockout-shortened season")
+    .on("click", function() {
+      window.open("https://grantland.com/the-triangle/the-often-forgotten-1994-nhl-lockout/")
+    })
+    .on("mouseover", function(d) {
+      d3.select(this).style("cursor", "pointer");
+    })
+    .on("mouseout", function(d) {
+      d3.select(this).style("cursor", "default");
+    });;
 
   // 2004 text
   d3.select("#chart")
@@ -132,9 +151,20 @@ function chart(data) {
     .attr("text-anchor", "start")
     .attr("font-weight", "bold")
     .attr("font-size", "12px")
-    .attr("y", margin.top - 1)
+    .style("fill", "blue")
+    .attr("text-decoration", "underline")
+    .attr("y", margin.top - 4)
     .attr("x", 947.5)
-    .text("2004: no season (lockout)");
+    .text("2004: no season (lockout)")
+    .on("click", function() {
+      window.open("https://www.espn.com/nhl/news/story?id=1992793")
+    })
+    .on("mouseover", function(d) {
+      d3.select(this).style("cursor", "pointer");
+    })
+    .on("mouseout", function(d) {
+      d3.select(this).style("cursor", "default");
+    });
 
   upyear(d3.select('#selectbox').property('value'), 0);
 
