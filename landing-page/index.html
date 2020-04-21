@@ -103,9 +103,23 @@
     }
 
     .mileLine {
-      stroke-width: 1.5;
+      stroke-width: 1;
       stroke: black;
       fill: none;
+    }
+
+    .tooltip {
+      position: absolute;
+      text-align: center;
+      width: 150px;
+      height: 80;
+      padding: 8px;
+      margin-top: -20px;
+      font: 12px sans-serif;
+      color: white;
+      font-weight: bold;
+      background: black;
+      pointer-events: none;
     }
   </style>
   <!-- partial:index.partial.html -->
@@ -139,6 +153,7 @@
         <p>This site tells the story of professional hockey over the years 1909 to 2011 using data from
           <a href="https://www.kaggle.com/open-source-sports/professional-hockey-database" target="_blank" rel="nofollow">Kaggle's Professional Hockey Database</a>.</p>
         <p> The Hockey Database is a collection of historical statistics from men's professional hockey teams in North America. </p>
+        <p> Examined below are scoring patterns and how they've changed over time, the best professional players and their accolades, and the geographical footprint of professional hockey since 1909. </p>
         <p> Authors: Owen Bezick & Daniel Cowan </p>
       </div>
     </article>
@@ -237,7 +252,7 @@
 
         <p>A look at the geographic history of professional hockey.</br>
           What areas of the world produce the most points? goals? assists?</br></br>
-          NOTE: areas colored black have yet to produce a professional hockey player.</p>
+          NOTE: areas colored grey have yet to produce a professional hockey player.</p>
 
         <div class="panel__block"></div>
 
