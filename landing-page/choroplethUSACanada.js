@@ -102,11 +102,6 @@ var path = d3.geoPath()
 // Data and color scale
 var data = d3.map();
 
-// tool tip generator
-var tooltip = d3.select("#usaMap")
-  .append("g")
-  .style("display", "none");
-
 var legendObj = d3.select("#usaMap")
   .append("g")
   .attr("class", "legendThreshold")
@@ -188,74 +183,6 @@ function ready(error, topo, data) {
 
   console.log(scoring);
 
-  //const max = d3.max(scoring, d => d.points);
-
-  //console.log(max);
-
-  // create a tooltip
-  var tip = tooltip.append("rect")
-    .attr("class", "tip")
-    .attr("stroke", "black")
-    .attr("fill", "#d3d3d3")
-    .attr("rx", 5)
-    .attr("ry", 5)
-    .attr("width", 175)
-    .attr("height", 50);
-
-  var text = tooltip.append("text")
-    .attr("class", "tiptext")
-    .attr("stroke", "black");
-
-  d3.select("#usaMap")
-    .append("rect")
-    .attr("width", width)
-    .attr("height", height)
-    .style("fill", "none")
-    .style("pointer-events", "all");
-
-  // Three function that change the tooltip when user hover / move / leave a cell
-  var mouseover = function(d) {
-    tooltip.style("display", null);
-
-    d3.select(this)
-      .style("stroke", "black")
-      .style("opacity", 1);
-  }
-
-  var mousemove = function(d) {
-
-    if (scoring[d.properties.name]) {
-      tooltip.select("rect")
-        .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
-          d3.mouse(this)[1] + ")");
-
-      tooltip.select(".tiptext")
-        .html(scoring[d.properties.name].totalPlayers + " professional hockey " +
-          "players from</br>" + d.properties.name + " have scored a total of " +
-          scoring[d.properties.name].points + " points.")
-        .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
-          (d3.mouse(this)[1] + 20) + ")");
-    } else {
-      tooltip.select("rect")
-        .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
-          d3.mouse(this)[1] + ")");
-
-      tooltip.select(".tiptext")
-        .html("No professional hockey players</br>have been born in " +
-          d.properties.name + ".")
-        .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
-          (d3.mouse(this)[1] + 20) + ")");
-    }
-  }
-
-  var mouseleave = function(d) {
-    tooltip.style("display", "none");
-
-    d3.select(this)
-      .style("stroke", "white")
-      .style("opacity", 1);
-  }
-
   // Draw the map
   d3.select("#usaMap")
     .append("g")
@@ -268,20 +195,59 @@ function ready(error, topo, data) {
       if (scoring.hasOwnProperty(d.properties.name)) {
         return usaColorScale(scoring[d.properties.name].points);
       } else {
-        return "black";
+        return "lightgrey";
       }
     })
     .attr("d", path)
     .on("mouseover", mouseover)
-    .on("mouseout", mouseleave)
+    .on("mouseout", mouseout)
     .on("mousemove", mousemove);
+
+  d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("display", "none");
+
+  function mouseover(d) {
+    d3.select(".tooltip").style("display", "inline");
+
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1);
+  }
+
+  function mousemove(d) {
+
+    d3.select(".tooltip")
+      .style("left", (d3.event.pageX + 1) + "px")
+      .style("top", (d3.event.pageY - 50) + "px")
+
+    if (scoring[d.properties.name]) {
+      d3.select(".tooltip")
+        .text(scoring[d.properties.name].totalPlayers + " professional hockey " +
+          "players from " + d.properties.name + " have scored a total of " +
+          scoring[d.properties.name].points + " points.");
+    } else {
+      d3.select(".tooltip")
+        .text("No professional hockey players have been born in " +
+          d.properties.name + ".");
+    }
+  }
+
+  function mouseout(d) {
+    d3.select(".tooltip").style("display", "none");
+
+    d3.select(this)
+      .style("stroke", "white")
+      .style("opacity", 1);
+  }
 
   // A function that updates the chart
   function update(selectedGroup, topo, data) {
 
     // Three function that change the tooltip when user hover / move / leave a cell
-    var mouseover = function(d) {
-      tooltip.style("display", null);
+    function mouseover(d) {
+      d3.select(".tooltip").style("display", "inline");
 
       d3.select(this)
         .style("stroke", "black")
@@ -302,32 +268,24 @@ function ready(error, topo, data) {
         }
       }
 
+      d3.select(".tooltip")
+        .style("left", (d3.event.pageX + 1) + "px")
+        .style("top", (d3.event.pageY - 50) + "px")
+
       if (scoring[d.properties.name]) {
-        tooltip.select("rect")
-          .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
-            d3.mouse(this)[1] + ")");
-
-        tooltip.select(".tiptext")
-          .html(scoring[d.properties.name].totalPlayers +
-            " professional hockey players from</br>" + d.properties.name +
-            " have scored a total of " + numberToShow + " " + selectedGroup.toLowerCase() + ".")
-          .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
-            (d3.mouse(this)[1] + 20) + ")");
+        d3.select(".tooltip")
+          .text(scoring[d.properties.name].totalPlayers + " professional hockey " +
+            "players from " + d.properties.name + " have scored a total of " +
+            numberToShow + " " + selectedGroup.toLowerCase() + ".");
       } else {
-        tooltip.select("rect")
-          .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
-            d3.mouse(this)[1] + ")");
-
-        tooltip.select(".tiptext")
-          .html("No professional hockey players</br>have been born in " +
-            d.properties.name + ".")
-          .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
-            (d3.mouse(this)[1] + 20) + ")");
+        d3.select(".tooltip")
+          .text("No professional hockey players have been born in " +
+            d.properties.name + ".");
       }
     }
 
-    var mouseleave = function(d) {
-      tooltip.style("display", "none");
+    function mouseout(d) {
+      d3.select(".tooltip").style("display", "none");
 
       d3.select(this)
         .style("stroke", "white")
@@ -359,7 +317,7 @@ function ready(error, topo, data) {
 
           return usaColorScale(numberToShow);
         } else {
-          return "black";
+          return "lightgrey";
         }
       })
       .attr("d", path)
@@ -367,7 +325,7 @@ function ready(error, topo, data) {
       .style("opacity", 1)
       .on("mouseover", mouseover)
       .on("mousemove", mousemove)
-      .on("mouseleave", mouseleave);
+      .on("mouseleave", mouseout);
   }
 
   // When the button is changed, run the updateChart function

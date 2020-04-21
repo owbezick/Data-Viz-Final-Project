@@ -110,66 +110,6 @@ function ready(error, topo, data) {
 
   console.log(scoring);
 
-  // create a tooltip
-  var tooltip = d3.select("#worldMap")
-    .append("g")
-    .style("display", "none");
-
-  var rect = tooltip.append("rect");
-
-  var tiptext = tooltip.append("text")
-    .attr("class", "tiptext")
-    .attr("stroke", "black");
-
-  // Three function that change the tooltip when user hover / move / leave a cell
-  var mouseover = function(d) {
-    tooltip.style("display", null);
-
-    d3.select(this)
-      .style("stroke", "black")
-      .style("opacity", 1);
-  }
-
-  var mousemove = function(d) {
-    tooltip.select("rect")
-      .attr("width", "200px")
-      .attr("height", "100px")
-      .style("stroke", "black")
-      .attr("fill", "#d3d3d3")
-      .style("opacity", 1);
-
-    if (scoring[d.properties.name]) {
-      tooltip.select("rect")
-        .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
-          d3.mouse(this)[1] + ")");
-
-      tooltip.select(".tiptext")
-        .html(scoring[d.properties.name].totalPlayers + " professional hockey " +
-          "players from<br>" + d.properties.name + " have scored a total of " +
-          scoring[d.properties.name].points + " points.</br>")
-        .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
-          (d3.mouse(this)[1] + 20) + ")");
-    } else {
-      tooltip.select("rect")
-        .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
-          d3.mouse(this)[1] + ")");
-
-      tooltip.select(".tiptext")
-        .html("No professional hockey players<br>have been born in " +
-          d.properties.name + ".</br>")
-        .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
-          (d3.mouse(this)[1] + 20) + ")");
-    }
-  }
-
-  var mouseleave = function(d) {
-    tooltip.style("display", "none");
-
-    d3.select(this)
-      .style("stroke", "white")
-      .style("opacity", 1);
-  }
-
   // Draw the map
   d3.select("#worldMap")
     .append("g")
@@ -182,20 +122,59 @@ function ready(error, topo, data) {
       if (scoring.hasOwnProperty(d.properties.name)) {
         return colorScale(scoring[d.properties.name].points);
       } else {
-        return "black";
+        return "lightgrey";
       }
     })
     .attr("d", worldPath)
     .on("mouseover", mouseover)
     .on("mousemove", mousemove)
-    .on("mouseleave", mouseleave);
+    .on("mouseleave", mouseout);
+
+  d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("display", "none");
+
+  function mouseover(d) {
+    d3.select(".tooltip").style("display", "inline");
+
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1);
+  }
+
+  function mousemove(d) {
+
+    d3.select(".tooltip")
+      .style("left", (d3.event.pageX + 1) + "px")
+      .style("top", (d3.event.pageY - 50) + "px")
+
+    if (scoring[d.properties.name]) {
+      d3.select(".tooltip")
+        .text(scoring[d.properties.name].totalPlayers + " professional hockey " +
+          "players from " + d.properties.name + " have scored a total of " +
+          scoring[d.properties.name].points + " points.");
+    } else {
+      d3.select(".tooltip")
+        .text("No professional hockey players have been born in " +
+          d.properties.name + ".");
+    }
+  }
+
+  function mouseout(d) {
+    d3.select(".tooltip").style("display", "none");
+
+    d3.select(this)
+      .style("stroke", "white")
+      .style("opacity", 1);
+  }
 
   // A function that updates the chart
   function update(selectedGroup, topo, data) {
 
     // Three function that change the tooltip when user hover / move / leave a cell
-    var mouseover = function(d) {
-      tooltip.style("display", null);
+    function mouseover(d) {
+      d3.select(".tooltip").style("display", "inline");
 
       d3.select(this)
         .style("stroke", "black")
@@ -203,12 +182,6 @@ function ready(error, topo, data) {
     }
 
     var mousemove = function(d) {
-      tooltip.select("rect")
-        .attr("width", "200px")
-        .attr("height", "100px")
-        .style("stroke", "black")
-        .attr("fill", "#d3d3d3")
-        .style("opacity", 1);
 
       var numberToShow;
 
@@ -222,32 +195,24 @@ function ready(error, topo, data) {
         }
       }
 
+      d3.select(".tooltip")
+        .style("left", (d3.event.pageX + 1) + "px")
+        .style("top", (d3.event.pageY - 50) + "px")
+
       if (scoring[d.properties.name]) {
-        tooltip.select("rect")
-          .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
-            d3.mouse(this)[1] + ")");
-
-        tooltip.select(".tiptext")
-          .html(scoring[d.properties.name].totalPlayers +
-            " professional hockey players from<br>" + d.properties.name +
-            " have scored a total of " + numberToShow + " " + selectedGroup.toLowerCase() + ".")
-          .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
-            (d3.mouse(this)[1] + 20) + ")");
+        d3.select(".tooltip")
+          .text(scoring[d.properties.name].totalPlayers + " professional hockey " +
+            "players from " + d.properties.name + " have scored a total of " +
+            numberToShow + " " + selectedGroup.toLowerCase() + ".");
       } else {
-        tooltip.select("rect")
-          .attr("transform", "translate(" + d3.mouse(this)[0] + "," +
-            d3.mouse(this)[1] + ")");
-
-        tooltip.select(".tiptext")
-          .html("No professional hockey players<br>have been born in " +
-            d.properties.name + ".</br>")
-          .attr("transform", "translate(" + (d3.mouse(this)[0] + 5) + "," +
-            (d3.mouse(this)[1] + 20) + ")");
+        d3.select(".tooltip")
+          .text("No professional hockey players have been born in " +
+            d.properties.name + ".");
       }
     }
 
-    var mouseleave = function(d) {
-      tooltip.style("display", "none");
+    function mouseout(d) {
+      d3.select(".tooltip").style("display", "none");
 
       d3.select(this)
         .style("stroke", "white")
@@ -279,7 +244,7 @@ function ready(error, topo, data) {
 
           return colorScale(numberToShow);
         } else {
-          return "black";
+          return "lightgrey";
         }
       })
       .attr("d", worldPath)
@@ -287,7 +252,7 @@ function ready(error, topo, data) {
       .style("opacity", 1)
       .on("mouseover", mouseover)
       .on("mousemove", mousemove)
-      .on("mouseleave", mouseleave);
+      .on("mouseleave", mouseout);
 
   }
 
