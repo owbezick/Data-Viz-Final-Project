@@ -169,8 +169,8 @@ ul {
   -webkit-transform-origin: center 80%;
           transform-origin: center 80%;
   opacity: 0;
-  -webkit-transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .panel__content--active {
   -webkit-transform: none;
@@ -186,8 +186,8 @@ ul {
 .panel p {
   margin: 0 0 25px 0;
   color: #1a1a1a;
-  font-size: 24px;
-  max-width: 800px;
+  font-size: 20px;
+  max-width: 900px;
 }
 .panel p:last-child {
   margin-bottom: 0;
@@ -205,7 +205,7 @@ ul {
     padding: 10vh 10vw;
   }
   .panel p {
-    font-size: 16px;
+    font-size: 10px;
   }
 }
 
@@ -239,22 +239,4 @@ ul {
 
 .b-yellow {
   background: #e6d068;
-}
-
-.logo {
-  position: fixed;
-  bottom: 3vh;
-  right: 3vw;
-  z-index: 2;
-}
-.logo img {
-  width: 65px;
-  -webkit-transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  -webkit-transform: rotate(0);
-          transform: rotate(0);
-}
-.logo img:hover {
-  -webkit-transform: rotate(180deg) scale(1.1);
-          transform: rotate(180deg) scale(1.1);
 }
