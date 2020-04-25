@@ -31,7 +31,7 @@ function chart(data) {
   var y = d3.scaleLinear()
     .rangeRound([height - margin.bottom, margin.top]);
 
-  var z = d3.scaleOrdinal(d3.schemeCategory10);
+  var z = d3.scaleOrdinal(d3.schemeSet1);
 
   var line = d3.line()
     .curve(d3.curveCardinal)
@@ -66,8 +66,8 @@ function chart(data) {
     .style("display", "none");
 
   focus.append("line").attr("class", "lineHover")
-    .style("stroke", "#999")
-    .attr("stroke-width", 2.5)
+    .style("stroke", "black")
+    .attr("stroke-width", 3.5)
     .style("shape-rendering", "crispEdges")
     .style("opatype", 0.5)
     .attr("y1", -height + margin.top)
@@ -84,87 +84,87 @@ function chart(data) {
     .attr("width", width - margin.right - margin.left)
     .attr("height", height)
 
-  // 1967 line
-  d3.select("#chart")
-    .append("line")
-    .attr("class", "mileLine")
-    .attr("x1", 668)
-    .attr("y1", margin.top - 2)
-    .attr("x2", 668)
-    .attr("y2", height - margin.bottom);
-
-  // 1994 line
-  d3.select("#chart")
-    .append("line")
-    .attr("class", "mileLine")
-    .attr("x1", 872)
-    .attr("y1", margin.top - 2)
-    .attr("x2", 872)
-    .attr("y2", height - margin.bottom);
-
-  // 2004 line
-  d3.select("#chart")
-    .append("line")
-    .attr("class", "mileLine")
-    .attr("x1", 947.5)
-    .attr("y1", margin.top - 1)
-    .attr("x2", 947.5)
-    .attr("y2", height - margin.bottom);
-
-  // 1967 text
-  d3.select("#chart")
-    .append("text")
-    .attr("class", "mileLabel")
-    .attr("y", margin.top - 4)
-    .attr("x", 668)
-    .text("1967: beginning of expansion era")
-    .on("click", function() {
-      window.open("https://thehockeywriters.com/june-6-1967-the-day-that-changed-hockey/")
-    })
-    .on("mouseover", function(d) {
-      d3.select(this).style("cursor", "pointer");
-    })
-    .on("mouseout", function(d) {
-      d3.select(this).style("cursor", "default");
-    });;
-
-  // 1994 text
-  d3.select("#chart")
-    .append("text")
-    .attr("class", "mileLabel")
-    .attr("y", margin.top - 4)
-    .attr("x", 872)
-    .text("1994: lockout-shortened season")
-    .on("click", function() {
-      window.open("https://grantland.com/the-triangle/the-often-forgotten-1994-nhl-lockout/")
-    })
-    .on("mouseover", function(d) {
-      d3.select(this).style("cursor", "pointer");
-    })
-    .on("mouseout", function(d) {
-      d3.select(this).style("cursor", "default");
-    });;
-
-  // 2004 text
-  d3.select("#chart")
-    .append("text")
-    .attr("text-anchor", "start")
-    .attr("font-weight", "bold")
-    .attr("font-size", "12px")
-    .style("fill", "blue")
-    .attr("text-decoration", "underline")
-    .attr("y", margin.top - 4)
-    .attr("x", 947.5)
-    .text("2004: no season (lockout)")
-    .on("click", function() {
-      window.open("https://www.espn.com/nhl/news/story?id=1992793")
-    })
-    .on("mouseover", function(d) {
-      d3.select(this).style("cursor", "pointer");
-    })
-    .on("mouseout", function(d) {
-      d3.select(this).style("cursor", "default");
-    });
+  // // 1967 line
+  // d3.select("#chart")
+  //   .append("line")
+  //   .attr("class", "mileLine")
+  //   .attr("x1", 668)
+  //   .attr("y1", margin.top - 2)
+  //   .attr("x2", 668)
+  //   .attr("y2", height - margin.bottom);
+  //
+  // // 1994 line
+  // d3.select("#chart")
+  //   .append("line")
+  //   .attr("class", "mileLine")
+  //   .attr("x1", 872)
+  //   .attr("y1", margin.top - 2)
+  //   .attr("x2", 872)
+  //   .attr("y2", height - margin.bottom);
+  //
+  // // 2004 line
+  // d3.select("#chart")
+  //   .append("line")
+  //   .attr("class", "mileLine")
+  //   .attr("x1", 947.5)
+  //   .attr("y1", margin.top - 1)
+  //   .attr("x2", 947.5)
+  //   .attr("y2", height - margin.bottom);
+  //
+  // // 1967 text
+  // d3.select("#chart")
+  //   .append("text")
+  //   .attr("class", "mileLabel")
+  //   .attr("y", margin.top - 4)
+  //   .attr("x", 668)
+  //   .text("1967: beginning of expansion era")
+  //   .on("click", function() {
+  //     window.open("https://thehockeywriters.com/june-6-1967-the-day-that-changed-hockey/")
+  //   })
+  //   .on("mouseover", function(d) {
+  //     d3.select(this).style("cursor", "pointer");
+  //   })
+  //   .on("mouseout", function(d) {
+  //     d3.select(this).style("cursor", "default");
+  //   });;
+  //
+  // // 1994 text
+  // d3.select("#chart")
+  //   .append("text")
+  //   .attr("class", "mileLabel")
+  //   .attr("y", margin.top - 4)
+  //   .attr("x", 872)
+  //   .text("1994: lockout-shortened season")
+  //   .on("click", function() {
+  //     window.open("https://grantland.com/the-triangle/the-often-forgotten-1994-nhl-lockout/")
+  //   })
+  //   .on("mouseover", function(d) {
+  //     d3.select(this).style("cursor", "pointer");
+  //   })
+  //   .on("mouseout", function(d) {
+  //     d3.select(this).style("cursor", "default");
+  //   });;
+  //
+  // // 2004 text
+  // d3.select("#chart")
+  //   .append("text")
+  //   .attr("text-anchor", "start")
+  //   .attr("font-weight", "bold")
+  //   .attr("font-size", "12px")
+  //   .style("fill", "blue")
+  //   .attr("text-decoration", "underline")
+  //   .attr("y", margin.top - 4)
+  //   .attr("x", 947.5)
+  //   .text("2004: no season (lockout)")
+  //   .on("click", function() {
+  //     window.open("https://www.espn.com/nhl/news/story?id=1992793")
+  //   })
+  //   .on("mouseover", function(d) {
+  //     d3.select(this).style("cursor", "pointer");
+  //   })
+  //   .on("mouseout", function(d) {
+  //     d3.select(this).style("cursor", "default");
+  //   });
 
   upyear(d3.select('#selectbox').property('value'), 0);
 
@@ -241,6 +241,18 @@ function chart(data) {
 
     function mousemove() {
 
+      var formatID = function(d) {
+        if (d.includes("Per_Game")) {
+          d = d.replace(/_/g, " ");
+          return d;
+        } else {
+          d = d.replace("_", " ");
+          arr = d.split(" ");
+          d = arr[1] + ' ' + arr[0];
+          return d;
+        }
+      }
+
       var x0 = x.invert(d3.mouse(this)[0]),
         i = bisectyear(data, x0, 1),
         d0 = data[i - 1],
@@ -252,7 +264,7 @@ function chart(data) {
 
       focus.select(".lineHoveryear")
         .attr("transform",
-          "translate(" + x(d.year) + "," + 15 + ")")
+          "translate(" + x(d.year) + "," + 25 + ")")
         .attr("font-size", 20)
         .text(formatyear(d.year));
 
@@ -264,7 +276,7 @@ function chart(data) {
         .attr("x", 0)
         .attr("y", 50)
         .attr("font-size", 20)
-        .text(e => e + " " + formatValue(d[e]))
+        .text(e => formatID(e) + ": " + formatValue(d[e]))
     }
   }
 

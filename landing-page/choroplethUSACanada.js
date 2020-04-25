@@ -138,7 +138,6 @@ function ready(error, topo, data) {
 
   // add the options to the button
   d3.select("#usaSelectButton")
-    .attr("transform", "translate(0," + height + ")")
     .selectAll('myOptions')
     .data(groups)
     .enter()
