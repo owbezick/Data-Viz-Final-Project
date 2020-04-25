@@ -85,9 +85,17 @@ function ready(error, topo, data) {
   data.forEach(d => {
     if (d.birthCountry == "Brunei Darussalam") {
       d.birthCountry = "Brunei";
-    } else if (d.birthCountry == "USSR") {
+    }
+    if (d.birthCountry == "USSR") {
       d.birthCountry = "Russia";
     }
+    if (d.fullName == "Ivan_Boldirev" || d.fullName == "Stan_Smrke") {
+      d.birthCountry = "Republic of Serbia";
+    }
+    if (d.fullName == "Jan_Mursak") {
+      d.birthCountry = "Slovenia";
+    }
+
     if (!scoring.hasOwnProperty(d.birthCountry)) {
       scoring[d.birthCountry] = {
         points: 0,

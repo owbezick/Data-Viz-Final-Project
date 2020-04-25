@@ -150,6 +150,9 @@
 <div class="videoContainer">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/4-CF_J0vfzw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
+<div id="timeline" style="text-align:center;">
+  <script src="timeline.js"></script>
+</div>
 <script>
   function goBack() {
     window.history.back();
@@ -187,4 +190,6 @@
     .append('svg')
     .attr("width", width)
     .attr("height", height);
+
+  timeline.draw("Gordie_Howe");
 </script>
