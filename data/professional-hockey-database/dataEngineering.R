@@ -7,6 +7,19 @@ Teams[is.na(Teams)] <- 0
 Master <- read_csv("Master.csv")
 Goalies <- read_csv("Goalies.csv")
 
+
+
+goalies <- Goalies %>%
+  filter(playerID %in% c("lundqhe01", "plantja01","luongro01")) %>%
+  group_by(playerID) %>%
+  summarise(gamesPlayed = sum(GP)
+            ,wins = sum(W)
+            , losses =sum(L)
+            , goalsAgainst = sum(GA)
+            , shotsAgainst = sum(SA))
+goalies <- goalies %>%
+  mutate(percentage = goalsAgainst/shotsAgainst)
+
 scoring <- Scoring %>%
   group_by(year) %>%
   summarise(goals = sum(G)
