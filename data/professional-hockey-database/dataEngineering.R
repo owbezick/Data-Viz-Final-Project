@@ -5,6 +5,7 @@ Scoring[is.na(Scoring)] <- 0
 Teams <- read_csv("Teams.csv")
 Teams[is.na(Teams)] <- 0
 Master <- read_csv("Master.csv")
+Goalies <- read_csv("Goalies.csv")
 
 scoring <- Scoring %>%
   group_by(year) %>%
@@ -22,7 +23,7 @@ final_df <- combined %>%
   mutate(goalsPerGame = round(goals/games, digits = 2)
          , assistsPerGame = round(assists/games, digits = 2)
          , pointsPerGAme = round(points /games, digits = 2))
-write_csv(final_df, "gameScoring.csv")
+
 
 # Variable # Value
 top_players <- merge(Master, Scoring)
@@ -34,7 +35,7 @@ summary <- top_players %>%
   select(playerID, GP, G, A, Pts, PIM, plusMinus = `+/-`, PostG, PostGP, SOG, firstNHL, lastNHL) %>%
   group_by(playerID)  %>%
   summarise(GP = sum(GP), G = sum(G), A = sum(A), Pts = sum(Pts), PIM = sum(PIM), plusMinus = sum(plusMinus)) %>%
-  filter(playerID=="orrbo01")
+  filter(playerID %in% c("potvide01", "lindste01"))
 
 gamesPlayed <- summary$GP
 goals <- summary$G
