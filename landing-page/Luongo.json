@@ -1,9 +1,8 @@
 [
     [
-      {"area": "Games Played ", "value": 1060},
-      {"area": "Goals", "value": 310},
-      {"area": "Points ", "value": 1052},
-      {"area": "Assists ", "value": 742},
-      {"area": "Plus Minus ", "value": 460}
+      {"area": "Games Played ", "value": 727},
+      {"area": "Wins ", "value": 339},
+      {"area": "Losses ", "value": 283},
+      {"area": "Save Percentage", "value": 80.69}
   	]
   ]
