@@ -136,7 +136,7 @@
 <div id="header"></div>
 <div id="subHeader"></div>
 <div id="image">
-  <img src="MartinHead.jpg" class="center" border="5" width="10%">
+  <img src="luongoHead.jpg" class="center" border="5" width="10%">
 </div>
 <!-- <p align="center"><b>Brantford, Ontario, Canada</b></p>
 <p align="center"><b>Played in NHL 1979-1998</b></p>
@@ -148,7 +148,7 @@
 <script src="RadarChart.js"></script>
 <h3>Highlight Reel</h3>
 <div class="videoContainer">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/SGmnWIL9QjU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/S9WAKGbOg8U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <div id="timeline" style="text-align:center;">
   <script src="timeline.js"></script>
@@ -160,12 +160,12 @@
   const head = d3.select("#header");
   head
     .append("h1")
-    .text("Martin Brodeur")
+    .text("Roberto Luongo")
     .classed("headerStyle", true)
   const subHead = d3.select("#subHeader");
   head
     .append("h1")
-    .text('"Brody"')
+    .text('"Bobby Boo"')
     .classed("subHeaderStyle", true)
 
   var width = 300,
@@ -175,12 +175,12 @@
   var config = {
     w: width,
     h: height,
-    maxValue: 3000,
-    levels: 6,
+    maxValue: 1000,
+    levels: 5,
     ExtraWidthX: 300
   }
 
-  d3.json("Gretzky.json", function(error, data) {
+  d3.json("Luongo.json", function(error, data) {
     console.log(data);
     RadarChart.draw("#chart", data, config);
   });

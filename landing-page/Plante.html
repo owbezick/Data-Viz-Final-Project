@@ -175,12 +175,12 @@
   var config = {
     w: width,
     h: height,
-    maxValue: 3000,
-    levels: 6,
+    maxValue: 1000,
+    levels: 5,
     ExtraWidthX: 300
   }
 
-  d3.json("Gretzky.json", function(error, data) {
+  d3.json("plante.json", function(error, data) {
     console.log(data);
     RadarChart.draw("#chart", data, config);
   });
