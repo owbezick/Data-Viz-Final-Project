@@ -84,94 +84,12 @@ function chart(data) {
     .attr("width", width - margin.right - margin.left)
     .attr("height", height)
 
-  // // 1967 line
-  // d3.select("#chart")
-  //   .append("line")
-  //   .attr("class", "mileLine")
-  //   .attr("x1", 668)
-  //   .attr("y1", margin.top - 2)
-  //   .attr("x2", 668)
-  //   .attr("y2", height - margin.bottom);
-  //
-  // // 1994 line
-  // d3.select("#chart")
-  //   .append("line")
-  //   .attr("class", "mileLine")
-  //   .attr("x1", 872)
-  //   .attr("y1", margin.top - 2)
-  //   .attr("x2", 872)
-  //   .attr("y2", height - margin.bottom);
-  //
-  // // 2004 line
-  // d3.select("#chart")
-  //   .append("line")
-  //   .attr("class", "mileLine")
-  //   .attr("x1", 947.5)
-  //   .attr("y1", margin.top - 1)
-  //   .attr("x2", 947.5)
-  //   .attr("y2", height - margin.bottom);
-  //
-  // // 1967 text
-  // d3.select("#chart")
-  //   .append("text")
-  //   .attr("class", "mileLabel")
-  //   .attr("y", margin.top - 4)
-  //   .attr("x", 668)
-  //   .text("1967: beginning of expansion era")
-  //   .on("click", function() {
-  //     window.open("https://thehockeywriters.com/june-6-1967-the-day-that-changed-hockey/")
-  //   })
-  //   .on("mouseover", function(d) {
-  //     d3.select(this).style("cursor", "pointer");
-  //   })
-  //   .on("mouseout", function(d) {
-  //     d3.select(this).style("cursor", "default");
-  //   });;
-  //
-  // // 1994 text
-  // d3.select("#chart")
-  //   .append("text")
-  //   .attr("class", "mileLabel")
-  //   .attr("y", margin.top - 4)
-  //   .attr("x", 872)
-  //   .text("1994: lockout-shortened season")
-  //   .on("click", function() {
-  //     window.open("https://grantland.com/the-triangle/the-often-forgotten-1994-nhl-lockout/")
-  //   })
-  //   .on("mouseover", function(d) {
-  //     d3.select(this).style("cursor", "pointer");
-  //   })
-  //   .on("mouseout", function(d) {
-  //     d3.select(this).style("cursor", "default");
-  //   });;
-  //
-  // // 2004 text
-  // d3.select("#chart")
-  //   .append("text")
-  //   .attr("text-anchor", "start")
-  //   .attr("font-weight", "bold")
-  //   .attr("font-size", "12px")
-  //   .style("fill", "blue")
-  //   .attr("text-decoration", "underline")
-  //   .attr("y", margin.top - 4)
-  //   .attr("x", 947.5)
-  //   .text("2004: no season (lockout)")
-  //   .on("click", function() {
-  //     window.open("https://www.espn.com/nhl/news/story?id=1992793")
-  //   })
-  //   .on("mouseover", function(d) {
-  //     d3.select(this).style("cursor", "pointer");
-  //   })
-  //   .on("mouseout", function(d) {
-  //     d3.select(this).style("cursor", "default");
-  //   });
-
   upyear(d3.select('#selectbox').property('value'), 0);
 
   function upyear(input, speed) {
 
     var copy = keys.filter(f => f.includes(input))
-    console.log(copy);
+
     var types = copy.map(function(id) {
       return {
         id: id,
@@ -183,7 +101,7 @@ function chart(data) {
         })
       };
     });
-    console.log(types);
+
     y.domain([
       d3.min(types, d => d3.min(d.values, c => c.metric)),
       d3.max(types, d => d3.max(d.values, c => c.metric))
@@ -232,7 +150,25 @@ function chart(data) {
 
     svg.selectAll(".overlay")
       .on("mouseover", function() {
+
+        if (copy.includes("Goals_Per_Game")) {
+          var w = 215;
+        } else {
+          var w = 200;
+        }
+
+        var h = 150;
+
+        focus.select(".bckgrd").remove();
+
         focus.style("display", null);
+
+        focus.insert("rect", "text")
+          .attr("class", "bckgrd")
+          .attr("width", w)
+          .attr("height", h)
+          .style("fill", "white")
+          .attr("transform", "translate(-10,50)");
       })
       .on("mouseout", function() {
         focus.style("display", "none");

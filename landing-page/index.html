@@ -16,119 +16,123 @@
 <body>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <style>
-  /* Three image containers (use 25% for four, and 50% for two, etc) */
-  .column {
-    float: left;
-    width: 33.33%;
-    padding: 5px;
-  }
+    /* Three image containers (use 25% for four, and 50% for two, etc) */
+    .column {
+      float: left;
+      width: 33.33%;
+      padding: 5px;
+    }
 
-  /* Clear floats after image containers */
-  .row::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
+    /* Clear floats after image containers */
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
 
-  .y-axis line {
-    opatype: .2;
-  }
+    .y-axis line {
+      opatype: .2;
+    }
 
-  .y-axis path {
-    display: none;
-  }
+    .y-axis path {
+      display: none;
+    }
 
-  .line {
-    fill: none;
-    stroke-width: 3px;
-    opatype: .75;
-  }
+    .line {
+      fill: none;
+      stroke-width: 3px;
+      opatype: .75;
+    }
 
-  .overlay {
-    fill: none;
-    pointer-events: all;
-  }
+    .overlay {
+      fill: none;
+      pointer-events: all;
+    }
 
-  .hoverCircle {
-    opatype: 1;
-  }
+    .hoverCircle {
+      opatype: 1;
+    }
 
-  .countries {
-    fill: none;
-    stroke: #fff;
-    stroke-linejoin: round;
-  }
+    .countries {
+      fill: none;
+      stroke: #fff;
+      stroke-linejoin: round;
+    }
 
-  .legendThreshold {
-    font-size: 12px;
-    font-family: sans-serif;
-  }
-  .caption {
-    fill: #000;
-    text-anchor: start;
-    font-weight: bold;
-  }
+    .legendThreshold {
+      font-size: 12px;
+      font-family: sans-serif;
+    }
 
-  worldSelectButton {
-    position: absolute;
-    left: 100px;
-    top: 150px;
-  }
+    .caption {
+      fill: #000;
+      text-anchor: start;
+      font-weight: bold;
+    }
 
-  .states {
-    fill: none;
-    stroke: #fff;
-    stroke-linejoin: round;
-  }
+    worldSelectButton {
+      position: absolute;
+      left: 100px;
+      top: 150px;
+    }
 
-  usaSelectButton {
-    position: absolute;
-    left: 100px;
-    top: 150px;
-  }
-  .img {
-    border-radius: 999em;
-    height: 400px;
-    border: 5px solid white;
-    width: 400px;
-    margin: 0;
-  }
-  .map__headline {
-    text-align: center;
-    text-decoration: underline;
-    font-weight: bold;
-  }
+    .states {
+      fill: none;
+      stroke: #fff;
+      stroke-linejoin: round;
+    }
 
-  .mileLabel {
-    font-size: 12px;
-    font-weight: bold;
-    text-anchor: end;
-    text-decoration: underline;
-    fill: blue;
-  }
+    usaSelectButton {
+      position: absolute;
+      left: 100px;
+      top: 150px;
+    }
 
-  .mileLine {
-    stroke-width: 1;
-    stroke: black;
-    fill: none;
-  }
+    .img {
+      border-radius: 999em;
+      height: 400px;
+      border: 5px solid white;
+      width: 400px;
+      margin: 0;
+    }
 
-  .tooltip {
-    position: absolute;
-    text-align: center;
-    width: 150px;
-    height: 80;
-    padding: 8px;
-    margin-top: -20px;
-    font: 12px sans-serif;
-    color: white;
-    font-weight: bold;
-    background: black;
-    pointer-events: none;
-  }
-  h2{
-    text-align: center;
-  }
+    .map__headline {
+      text-align: center;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    .mileLabel {
+      font-size: 12px;
+      font-weight: bold;
+      text-anchor: end;
+      text-decoration: underline;
+      fill: blue;
+    }
+
+    .mileLine {
+      stroke-width: 1;
+      stroke: black;
+      fill: none;
+    }
+
+    .tooltip {
+      position: absolute;
+      text-align: center;
+      width: 180px;
+      height: 120px;
+      padding: 8px;
+      margin-top: -20px;
+      font: 16px sans-serif;
+      color: white;
+      font-weight: bold;
+      background: black;
+      pointer-events: none;
+    }
+
+    h2 {
+      text-align: center;
+    }
   </style>
   <!-- partial:index.partial.html -->
   <nav class="nav">
@@ -160,7 +164,8 @@
         <IMG SRC="letsDoThatHockey.gif">
         <p>This site tells the story of professional hockey over the years 1909 to 2011 using data from
           <a href="https://www.kaggle.com/open-source-sports/professional-hockey-database" target="_blank" rel="nofollow">Kaggle's Professional Hockey Database</a>,
-            a collection of historical statistics from men's professional hockey teams in North America. The dataset also includes information about each team to take the ice, each coach behind the bench, and each award to be offered, but we decided to focus on the player-level data and ask questions about the history of scoring in
+          a collection of historical statistics from men's professional hockey teams in North America. The dataset also includes information about each team to take the ice, each coach behind the bench, and each award to be offered, but we decided to
+          focus on the player-level data and ask questions about the history of scoring in
           professional hockey. </p>
         <p> Specifically, our goal was to look at how scoring rates - by which we mean to say how many goals, assists, and points (points = goals + assists) have been tallied each year - have changed over time, what the scoring profiles of those
           considered to be the best to ever play look like, and what areas of the world produce the most prolific scorers. </p>
@@ -198,29 +203,35 @@
       </div>
     </article>
   </section>
-      <section class="panel b-red" id="3">
-        <article class="panel__wrapper">
-          <div class="panel__content">
-            <h1 class="panel__headline"><i class="fa fa-users"></i>&nbsp;Top Players</h1>
-            <p> <b>Click</b> a photo to learn more about some of the best forwards, defensemen, and goalies professional hockey has ever seen! </p>
-            <p>What are some common themes among the best players? </p>
-            <p>How do the great defensemen differ from the great forwards and vice versa?</p>
-            <div class="panel__block"></div>
-            <h1> Forwards </h1>
-            <div class="panel__block"></div>
-            <div class="row">
-              <div class="column">
-                <h2> Wayne Gretzky </h2>
-                <a href="Gretzky.html">
-                  <img src="Gretzky.jpg" alt="Gretzky" height ="500px" width = "500px" class ="img">
-                </a>
-              </div>
-              <div class="column">
-                <h2> Gordie Howe </h2>
-                <a href="Howe.html">
-                  <img src="Howe.jpg" alt="Howe" height ="500px" width = "500px" class ="img">
-                </a>
-              </div>
+  <section class="panel b-red" id="3">
+    <article class="panel__wrapper">
+      <div class="panel__content">
+        <h1 class="panel__headline"><i class="fa fa-users"></i>&nbsp;Top Players</h1>
+        <p> <b>Click</b> a photo to learn more about some of the best forwards, defensemen, and goalies professional hockey has ever seen! </p>
+        <p>What are some common themes among the best players? </p>
+        <p>How do the great defensemen differ from the great forwards and vice versa?</p>
+        <p>Limitation: Note that, for example, Ovechkin's key stats chart looks much less impressive than Gretzky's and Orr's. Why? One of the main limitations to the dataset was the fact that it only contains stats up until 2011, so there are 8
+          dominant seasons
+          from Ovechkin that aren't reflected here. There's no doubt among the hockey community that Ovi is one of the best to ever play, but the dataset doesn't tell his whole story.</p>
+        <p>Another limitation of the dataset is that there are no advanced stats, so only main boxscore stats are available to us. As a result, many underrated players who might have made significant contributions that aren't reflected by stats such
+          as points cannot be identified by this data.</p>
+        <p>See what we mean by clicking below!</p>
+        <div class="panel__block"></div>
+        <h1> Forwards </h1>
+        <div class="panel__block"></div>
+        <div class="row">
+          <div class="column">
+            <h2> Wayne Gretzky </h2>
+            <a href="Gretzky.html">
+              <img src="Gretzky.jpg" alt="Gretzky" height="500px" width="500px" class="img">
+            </a>
+          </div>
+          <div class="column">
+            <h2> Gordie Howe </h2>
+            <a href="Howe.html">
+              <img src="Howe.jpg" alt="Howe" height="500px" width="500px" class="img">
+            </a>
+          </div>
           <div class="column">
             <h2> Alex Ovechkin </h2>
             <a href="Ovechkin.html">
@@ -242,14 +253,14 @@
 
             <h2> Niklas Lindstrom</h2>
             <a href="Lindstrom.html">
-            <img src="Lindstrom.jpg" alt="Lindstrom" height="500px" width="500px" class="img">
-          </a>
+              <img src="Lindstrom.jpg" alt="Lindstrom" height="500px" width="500px" class="img">
+            </a>
           </div>
           <div class="column">
             <h2> Denis Potvin</h2>
-              <a href="Potvin.html">
-            <img src="Potvin.jpg" alt="Potvin" height="500px" width="500px" class="img">
-          </a>
+            <a href="Potvin.html">
+              <img src="Potvin.jpg" alt="Potvin" height="500px" width="500px" class="img">
+            </a>
           </div>
         </div>
         <div class="panel__block"></div>
@@ -259,20 +270,20 @@
           <div class="column">
             <h2> Roberto Luongo </h2>
             <a href="Luongo.html">
-            <img src="Luongo.jpg" alt="Luongo" height="500px" width="500px" class="img">
-          </a>
+              <img src="Luongo.jpg" alt="Luongo" height="500px" width="500px" class="img">
+            </a>
           </div>
           <div class="column">
             <h2> Henrik Lundqvist </h2>
             <a href="Henrik.html">
-            <img src="Lundqvist.jpg" alt="Henrik" height="500px" width="500px" class="img">
-          </a>
+              <img src="Lundqvist.jpg" alt="Henrik" height="500px" width="500px" class="img">
+            </a>
           </div>
           <div class="column">
             <h2> Jacques Plante </h2>
-              <a href="Plante.html">
-            <img src="PlanteAlt.jpg" alt="Plante" height="500px" width="500px" class="img">
-          </a>
+            <a href="Plante.html">
+              <img src="PlanteAlt.jpg" alt="Plante" height="500px" width="500px" class="img">
+            </a>
           </div>
         </div>
         <div class="panel__block"></div>
