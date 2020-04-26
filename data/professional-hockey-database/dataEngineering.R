@@ -43,4 +43,4 @@ points <- summary$Pts
 plusMinus <- summary$plusMinus
 
 data <- data.frame(values = c(gamesPlayed, goals, assists, points, plusMinus), labels = c("Games Played", "Goals", "Assists", "Points", "Plus Minus"))
-write.csv(data, "GretzkyData.csv")
+

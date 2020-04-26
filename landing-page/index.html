@@ -158,11 +158,74 @@
         <h1 class="panel__headline"><i class="fa fa-info"></i>&nbsp;Let's Do That Hockey</h1>
         <div class="panel__block"></div>
         <IMG SRC="letsDoThatHockey.gif">
+<<<<<<< Updated upstream
           <p>This site tells the story of professional hockey over the years 1909 to 2011 using data from
             <a href="https://www.kaggle.com/open-source-sports/professional-hockey-database" target="_blank" rel="nofollow">Kaggle's Professional Hockey Database</a>.</p>
             <p> The Hockey Database is a collection of historical statistics from men's professional hockey teams in North America. </p>
             <p> Examined below are scoring patterns and how they've changed over time, the best professional players and their accolades, and the geographical footprint of professional hockey since 1909. </p>
             <p> Authors: Owen Bezick & Daniel Cowan </p>
+=======
+        <p>This site tells the story of professional hockey over the years 1909 to 2011 using data from
+          <a href="https://www.kaggle.com/open-source-sports/professional-hockey-database" target="_blank" rel="nofollow">Kaggle's Professional Hockey Database</a>,
+            a collection of historical statistics from men's professional hockey teams in North America. The dataset also includes information about each team to take the ice, each coach behind the bench, and each award to be offered, but we decided to focus on the player-level data and ask questions about the history of scoring in
+          professional hockey. </p>
+        <p> Specifically, our goal was to look at how scoring rates - by which we mean to say how many goals, assists, and points (points = goals + assists) have been tallied each year - have changed over time, what the scoring profiles of those
+          considered to be the best to ever play look like, and what areas of the world produce the most prolific scorers. </p>
+        <p>The first chart is a timeline describing the changes in both scoring totals and per-game rates throughout the history of professional hockey, as well as links to the events that incited those changes.</p>
+        <p>The second section features profiles of players widely thought to be the best to ever play hockey. Explore their key stats, investigate their scoring rates season-by-season, and watch their highlights.</p>
+        <p>The final section explores areas of the world that have produced professional players and how many points those players have produced. </p>
+        <p> Authors: Owen Bezick & Daniel Cowan </p>
+      </div>
+    </article>
+  </section>
+  <section class="panel b-yellow" id="2">
+    <article class="panel__wrapper">
+      <div class="panel__content">
+        <h1 class="panel__headline"><i class="fa fa-bolt"></i>&nbsp;Key Stats</h1>
+        <p>A look at how scoring (goals, assists, points) has changed in professional hockey throughout the years.</p>
+        <p>Try looking at both total numbers and the per-game rates to get a better context! </p>
+        <p>How do they compare?</p>
+        <p><b>Click the buttons above the graph</b> to learn more about some significant events in professional hockey history that had impacts on scoring trends.</p>
+        <div class="panel__block"></div>
+        <font style="font-size:15px;">Change metric:</font>
+        <select id="selectbox">
+          <option value="_Total">Totals</option>
+          <option value="_Per_Game">Per Game</option>
+        </select>
+
+        <br>
+        <button style="transform: translate(605px, 0px); cursor:pointer;" onclick="location.href = 'https://thehockeywriters.com/june-6-1967-the-day-that-changed-hockey/';">1967 Expansion</button>
+        <button style=" transform: translate(675px, 0px); cursor:pointer;" onclick="location.href = 'https://grantland.com/the-triangle/the-often-forgotten-1994-nhl-lockout/';">1994 Lockout</button>
+        <button style="transform: translate(680px, 0px); cursor:pointer;" onclick="location.href = 'https://www.espn.com/nhl/news/story?id=1992793';">2004 Lockout</button>
+        <button style="transform: translate(1px, 0px); cursor:pointer;" onclick="location.href = 'https://www.theglobeandmail.com/sports/hockey/recalling-the-birth-of-the-red-line/article1335487/';">1943 Birth of the Modern Era</button>
+        <svg id="chart" width="1300" height="550"></svg>
+        <script src="keyStats.js"></script>
+
+        <div class="panel__block"></div>
+      </div>
+    </article>
+  </section>
+  <section class="panel b-red" id="3">
+    <article class="panel__wrapper">
+      <div class="panel__content">
+        <h1 class="panel__headline"><i class="fa fa-users"></i>&nbsp;Top Players</h1>
+        <p> <b>Click</b> a photo to learn more about some of the best forwards, defensemen, and goalies professional hockey has ever seen! </p>
+        <p>What are some common themes among the best players? </p>
+        <p>How do the great defensemen differ from the great forwards and vice versa?</p>
+        <p>Note that, for example, Ovechkin's key stats chart looks much less impressive than Gretzky's and Orr's. Why? One of the main limitations to the dataset was the fact that it only contains stats up until 2011, so there are 8 dominant seasons
+          from Ovechkin that aren't reflected here. There's no doubt among the hockey community that Ovi is one of the best to ever play, but the dataset doesn't tell his whole story. See what we mean by clicking below!</p>
+        <p>Another limitation of the dataset is that there are no advanced stats, so only main boxscore stats are available to us. As a result, many underrated players who might have made significant contributions that aren't reflected by stats such
+          as points cannot be identified by this data.</p>
+        <div class="panel__block"></div>
+        <h1> Forwards </h1>
+        <div class="panel__block"></div>
+        <div class="row">
+          <div class="column">
+            <h2> Wayne Gretzky </h2>
+            <a href="Gretzky.html">
+              <img src="Gretzky.jpg" alt="Gretzky" height="500px" width="500px" class="img">
+            </a>
+>>>>>>> Stashed changes
           </div>
         </article>
       </section>
@@ -188,6 +251,7 @@
 
             <div class="panel__block"></div>
           </div>
+<<<<<<< Updated upstream
         </article>
       </section>
       <section class="panel b-red" id="3">
@@ -304,3 +368,128 @@
         </body>
 
         </html>
+=======
+          <div class="column">
+            <h2> Alex Ovechkin </h2>
+            <a href="Ovechkin.html">
+              <img src="Ovechkin.jpg" alt="Ovechkin" height="500px" width="500px" class="img">
+            </a>
+          </div>
+        </div>
+        <div class="panel__block"></div>
+        <h1> Defensemen </h1>
+        <div class="panel__block"></div>
+        <div class="row">
+          <div class="column">
+            <h2> Bobby Orr </h2>
+            <a href="Orr.html">
+              <img src="Orr.jpg" alt="Orr" height="500px" width="500px" class="img">
+            </a>
+          </div>
+          <div class="column">
+
+            <h2> Niklas Lindstrom</h2>
+            <a href="Lindstrom.html">
+            <img src="Lindstrom.jpg" alt="Lindstrom" height="500px" width="500px" class="img">
+          </a>
+          </div>
+          <div class="column">
+            <h2> Denis Potvin</h2>
+              <a href="Potvin.html">
+            <img src="Potvin.jpg" alt="Potvin" height="500px" width="500px" class="img">
+          </a>
+          </div>
+        </div>
+        <div class="panel__block"></div>
+        <h1> Goalies </h1>
+        <div class="panel__block"></div>
+        <div class="row">
+          <div class="column">
+            <h2> Martin Brodeur </h2>
+            <a href="Martin.html">
+            <img src="Brodeur.jpg" alt="Brodeur" height="500px" width="500px" class="img">
+          </a>
+          </div>
+          <div class="column">
+            <h2> Henrik Lundqvist </h2>
+            <a href="Henrik.html">
+            <img src="Lundqvist.jpg" alt="Henrik" height="500px" width="500px" class="img">
+          </a>
+          </div>
+          <div class="column">
+            <h2> Jacques Plante </h2>
+              <a href="Plante.html">
+            <img src="PlanteAlt.jpg" alt="Plante" height="500px" width="500px" class="img">
+          </a>
+          </div>
+        </div>
+        <div class="panel__block"></div>
+    </article>
+  </section>
+  <section class="panel b-green" id="4">
+    <article class="panel__wrapper">
+      <div class="panel__content">
+        <h1 class="panel__headline"><i class="fa fa-map-marker"></i>&nbsp;On The Map</h1>
+
+        <p>A look at the geographic history of professional hockey.</br>
+          What areas of the world produce the most points? goals? assists?</p>
+        <p><b>NOTE</b>: areas colored grey have yet to produce a professional hockey player.</p>
+        <p>Notice that there are many countries that have yet to produce a professional player. It's less a limitation of the dataset than it is a limitation of hockey, as the game is not as widespread as a sport like soccer. As a result, there's a
+          lot of grey on the map, and that's just part of hockey's story; there's still a ton of room to grow.</p>
+
+        <div class="panel__block"></div>
+
+        <h2 class="map__headline">Around the World</h2>
+
+        <h3 id="worldButtonLabel">Select a metric below:</h3>
+        <select id="worldSelectButton"></select>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
+        <svg id="worldMap" width="1300" height="550"></svg>
+        <script src="choroplethWorld.js"></script>
+
+        <div class="panel__block"></div>
+
+        <h2 class="map__headline">Close to Home</h2>
+
+        <h3 id="usaButtonLabel">Select a metric below:</h3>
+        <select id="usaSelectButton"></select>
+        <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
+        <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
+        <script src="https://d3js.org/queue.v1.min.js"></script>
+        <svg id="usaMap" width="1300" height="550"></svg>
+        <script src="choroplethUSACanada.js"></script>
+
+      </div>
+    </article>
+  </section>
+  <section class="panel b-red" id="5">
+    <article class="panel__wrapper">
+      <div class="panel__content">
+        <h1 class="panel__headline">Conclusion</h1>
+        <p>So what did we learn?</p>
+        <p>Scoring in the NHL, in terms of season totals, was largely driven by expansion. As teams joined the league, more goals and assists were tallied as there were many more players to do so. Lockouts also affected the totals, as disputes
+          between players and the league shortened and even cancelled seasons.</p>
+        <p>In terms of per-game scoring, rule changes were key. When the center red line was introduced in 1943, as the article linked noted, breakaways became a common method of
+          scoring, and overall scoring soared across the league. This rule change is considered to be the beginning of the modern era in professional hockey. Teams then learned how to defend these plays, and scoring slowed in years after. </p>
+        <p>The best players in hockey's history not only scored prolifically in terms of both totals and rates. They were able to string together several consecutive seasons of high-rate scoring that earned them awards, championships, and household
+          recognition. The best goalies did the opposite; they prevented forwards from scoring an incredible percentage of the time and did so on a consistent basis.</p>
+        <p>There are still many countries who still have the opportunite to produce their first professional hockey player. Among those that have, though, Canada is clearly the king, with the USA on its tail. Scandinavia and Russia have also produced
+          many prolific scorers.</p>
+        <p>Ontario and Quebec lead the way in terms of producing professional hockey players that score at a high rate; Minnesota and Michigan are the only US states to even come remotely close. Nunavut is the only Canadian territory yet to produce a
+          player, while several US states, most in the Southeast, have not seen their first.</p>
+        <p>If we had time, it would be fun to _____</p>
+      </div>
+    </article>
+  </section>
+  <!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="./script.js"></script>
+
+</body>
+
+</html>
+>>>>>>> Stashed changes
