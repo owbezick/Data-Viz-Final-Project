@@ -170,12 +170,12 @@
   var config = {
     w: width,
     h: height,
-    maxValue: 3000,
-    levels: 6,
+    maxValue: 1100,
+    levels: 5,
     ExtraWidthX: 300
   }
 
-  d3.json("Gretzky.json", function(error, data) {
+  d3.json("Potvin.json", function(error, data) {
     console.log(data);
     RadarChart.draw("#chart", data, config);
   });
