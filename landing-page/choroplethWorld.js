@@ -155,7 +155,7 @@ function ready(error, topo, data) {
 
     d3.select(".tooltip")
       .style("left", (d3.event.pageX + 1) + "px")
-      .style("top", (d3.event.pageY - 50) + "px")
+      .style("top", (d3.event.pageY - 90) + "px")
 
     if (scoring[d.properties.name]) {
       d3.select(".tooltip")
@@ -205,7 +205,7 @@ function ready(error, topo, data) {
 
       d3.select(".tooltip")
         .style("left", (d3.event.pageX + 1) + "px")
-        .style("top", (d3.event.pageY - 50) + "px")
+        .style("top", (d3.event.pageY - 90) + "px")
 
       if (scoring[d.properties.name]) {
         d3.select(".tooltip")

@@ -136,13 +136,8 @@
 <div id="header"></div>
 <div id="subHeader"></div>
 <div id="image">
-  <img src="LindstromHead.jpg" class="center" border="5" width="10%">
+  <img src="LidstromHead.jpg" class="center" border="5" width="10%">
 </div>
-<!-- <p align="center"><b>Brantford, Ontario, Canada</b></p>
-<p align="center"><b>Played in NHL 1979-1998</b></p>
-<p align="center"><b>4 Stanley Cups</b></p>
-<p align="center"><b>9 Hart Trophies (NHL MVP)</b></p>
-<p align="center"><b>All-time NHL leader in points, goals, assists</b></p> -->
 <h2>Key Stats</h2>
 <div id="chart"></div>
 <script src="RadarChart.js"></script>
@@ -150,6 +145,11 @@
 <div class="videoContainer">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/Dy2aeLaOshQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
+<p align="center"><b>Kryblo, Sweden</b></p>
+<p align="center"><b>Played in NHL 1991-2011</b></p>
+<p align="center"><b>4 Stanley Cups</b></p>
+<p align="center"><b>7 Norris Trophies (NHL's Best Defenseman)</b></p>
+<p align="center"><b>Oldest defenseman in NHL history to record a hat trick</b></p>
 <div id="timeline" style="text-align:center;">
   <script src="timeline.js"></script>
 </div>
@@ -160,7 +160,7 @@
   const head = d3.select("#header");
   head
     .append("h1")
-    .text("Niklas Lindstrom")
+    .text("Nicklas Lidstrom")
     .classed("headerStyle", true)
   const subHead = d3.select("#subHeader");
   head
@@ -180,7 +180,7 @@
     ExtraWidthX: 300
   }
 
-  d3.json("lindstrom.json", function(error, data) {
+  d3.json("lidstrom.json", function(error, data) {
     console.log(data);
     RadarChart.draw("#chart", data, config);
   });
@@ -191,5 +191,5 @@
     .attr("width", width)
     .attr("height", height);
 
-  timeline.draw("Wayne_Gretzky");
+  timeline.draw("Nicklas_Lidstrom");
 </script>
