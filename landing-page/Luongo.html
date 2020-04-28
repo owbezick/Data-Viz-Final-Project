@@ -57,6 +57,10 @@
     font: 20px Montserrat;
   }
 
+  h4 {
+    font: 20px Montserrat;
+  }
+
   .videoContainer {
     position: absolute;
     top: 200px;
@@ -150,6 +154,7 @@
 <p align="center"><b>6-time All-Star</b></p>
 <p align="center"><b>3rd-winningest goaltender in NHL history</b></p>
 <p align="center"><b>NHL record for most saves in a single season</b></p>
+<h4 align="center">Save Rates over Time</h4>
 <div id="timeline" style="text-align:center;">
   <script src="timeline.js"></script>
 </div>
@@ -191,5 +196,5 @@
     .attr("width", width)
     .attr("height", height);
 
-  timeline.draw("Wayne_Gretzky");
+  timeline.drawGoalie("luongro01");
 </script>
