@@ -21,7 +21,7 @@ var timeline = {
         "translate(" + margin.left + "," + margin.top + ")");
 
     //Read the data
-    d3.csv("exp_scoring.csv", function(error, data) {
+    d3.csv("/landing-page/data/exp_scoring.csv", function(error, data) {
 
       scoring = [];
 
@@ -116,7 +116,7 @@ var timeline = {
         "translate(" + margin.left + "," + margin.top + ")");
 
     //Read the data
-    d3.csv("Goalies.csv", function(error, data) {
+    d3.csv("/landing-page/data/Goalies.csv", function(error, data) {
 
       scoring = [];
 
