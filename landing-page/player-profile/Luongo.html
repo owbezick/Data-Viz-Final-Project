@@ -140,7 +140,7 @@
 <div id="header"></div>
 <div id="subHeader"></div>
 <div id="image">
-  <img src="luongoHead.jpg" class="center" border="5" width="10%">
+  <img src="/landing-page/img/luongoHead.jpg" class="center" border="5" width="10%">
 </div>
 <h2>Key Stats</h2>
 <div id="chart"></div>
@@ -156,7 +156,7 @@
 <p align="center"><b>NHL record for most saves in a single season</b></p>
 <h4 align="center">Save Rates over Time</h4>
 <div id="timeline" style="text-align:center;">
-  <script src="timeline.js"></script>
+  <script src="/landing-page/js/timeline.js"></script>
 </div>
 <script>
   function goBack() {
@@ -185,7 +185,7 @@
     ExtraWidthX: 300
   }
 
-  d3.json("Luongo.json", function(error, data) {
+  d3.json("/landing-page/data/Luongo.json", function(error, data) {
     console.log(data);
     RadarChart.draw("#chart", data, config);
   });

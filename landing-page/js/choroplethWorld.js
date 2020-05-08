@@ -8,101 +8,31 @@ var margin = {
   height = 550 - margin.top - margin.bottom;
 
 // The svg
-var svg = d3.select("#usaMap")
+var svg = d3.select("#worldMap")
   .append("svg")
   .attr("width", width)
   .attr("height", height)
   .attr("transform", "translate(0, 40)");
 
-var usaCodes = {
-  "AL": "Alabama",
-  "AK": "Alaska",
-  "AZ": "Arizona",
-  "AR": "Arkansas",
-  "CA": "California",
-  "CO": "Colorado",
-  "CT": "Connecticut",
-  "DE": "Delaware",
-  "FL": "Florida",
-  "GA": "Georgia",
-  "HI": "Hawaii",
-  "ID": "Idaho",
-  "IL": "Illinois",
-  "IN": "Indiana",
-  "IA": "Iowa",
-  "KS": "Kansas",
-  "KY": "Kentucky",
-  "LA": "Louisiana",
-  "ME": "Maine",
-  "MD": "Maryland",
-  "MA": "Massachusetts",
-  "MI": "Michigan",
-  "MN": "Minnesota",
-  "MS": "Mississippi",
-  "MO": "Missouri",
-  "MT": "Montana",
-  "NE": "Nebraska",
-  "NV": "Nevada",
-  "NH": "New Hampshire",
-  "NJ": "New Jersey",
-  "NM": "New Mexico",
-  "NY": "New York",
-  "NC": "North Carolina",
-  "ND": "North Dakota",
-  "OH": "Ohio",
-  "OK": "Oklahoma",
-  "OR": "Oregon",
-  "PA": "Pennsylvania",
-  "RI": "Rhode Island",
-  "SC": "South Carolina",
-  "SD": "South Dakota",
-  "TN": "Tennessee",
-  "TX": "Texas",
-  "UT": "Utah",
-  "VT": "Vermont",
-  "VA": "Virginia",
-  "WA": "Washington",
-  "WV": "West Virginia",
-  "WI": "Wisconsin",
-  "WY": "Wyoming"
-}
-
-var canCodes = {
-  "NL": "Newfoundland and Labrador",
-  "PE": "Prince Edward Island",
-  "NS": "Nova Scotia",
-  "NB": "New Brunswick",
-  "QC": "Québec",
-  "ON": "Ontario",
-  "MB": "Manitoba",
-  "SK": "Saskatchewan",
-  "AB": "Alberta",
-  "BC": "British Columbia",
-  "YT": "Yukon",
-  "NT": "Northwest Territories",
-  "NU": "Nunavut"
-}
-
-var usaColorScale = d3.scaleThreshold()
-  .domain([1, 100, 500, 1000, 5000, 10000, 50000, 100000, 300000])
-  .range(["#fff5f0", "#fee0d2", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#a50f15", "#67000d"]);
-
 // Map and projection
-var path = d3.geoPath();
+var worldPath = d3.geoPath();
 
-var projection = d3.geoAlbers()
-  .center([-20, 45])
-  .parallels([0, 45])
-  .scale(600)
-  .translate([width / 2, height / 2])
+var worldProjection = d3.geoNaturalEarth()
+  .scale(width / 2 / Math.PI)
+  .translate([width / 2, height / 2]);
 
-var path = d3.geoPath()
-  .projection(projection);
+var worldPath = d3.geoPath()
+  .projection(worldProjection);
 
 // Data and color scale
 var data = d3.map();
 
-var legendObj = d3.select("#usaMap")
+var colorScale = d3.scaleThreshold()
+  .domain([1, 100, 500, 1000, 5000, 10000, 50000, 100000, 300000])
+  .range(["#fff5f0", "#fee0d2", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#a50f15", "#67000d"]);
+
+// Legend
+var legendObj = d3.select("#worldMap")
   .append("g")
   .attr("class", "legendThreshold")
   .attr("transform", "translate(20,20)");
@@ -118,16 +48,16 @@ var legend = d3.legendColor()
     return labels[d.i];
   })
   .shapePadding(4)
-  .scale(usaColorScale);
+  .scale(colorScale);
 
-d3.select("#usaMap")
+d3.select("#worldMap")
   .select(".legendThreshold")
   .call(legend);
 
 // Load external data and boot
-queue()
-  .defer(d3.json, "states_provinces.json")
-  .defer(d3.csv, "exp_scoring.csv")
+d3.queue()
+  .defer(d3.json, "https://enjalot.github.io/wwsd/data/world/world-110m.geojson")
+  .defer(d3.csv, "data/exp_scoring.csv")
   .await(ready);
 
 function ready(error, topo, data) {
@@ -137,7 +67,8 @@ function ready(error, topo, data) {
   var groups = ["Points", "Goals", "Assists"];
 
   // add the options to the button
-  d3.select("#usaSelectButton")
+  d3.select("#worldSelectButton")
+    .attr("transform", "translate(0," + height + ")")
     .selectAll('myOptions')
     .data(groups)
     .enter()
@@ -152,16 +83,21 @@ function ready(error, topo, data) {
   var scoring = {}
 
   data.forEach(d => {
-    if (d.birthCountry == "USA") {
-      d.state = usaCodes[d.birthState];
-    } else if (d.birthCountry == "Canada") {
-      d.state = canCodes[d.birthState];
-    } else {
-      return;
+    if (d.birthCountry == "Brunei Darussalam") {
+      d.birthCountry = "Brunei";
+    }
+    if (d.birthCountry == "USSR") {
+      d.birthCountry = "Russia";
+    }
+    if (d.fullName == "Ivan_Boldirev" || d.fullName == "Stan_Smrke") {
+      d.birthCountry = "Republic of Serbia";
+    }
+    if (d.fullName == "Jan_Mursak") {
+      d.birthCountry = "Slovenia";
     }
 
-    if (!scoring.hasOwnProperty(d.state)) {
-      scoring[d.state] = {
+    if (!scoring.hasOwnProperty(d.birthCountry)) {
+      scoring[d.birthCountry] = {
         points: 0,
         goals: 0,
         assists: 0,
@@ -170,37 +106,37 @@ function ready(error, topo, data) {
       };
     }
     if (d.Pts != "NA") {
-      scoring[d.state].points += (+d.Pts);
-      scoring[d.state].goals += (+d.G);
-      scoring[d.state].assists += (+d.A);
+      scoring[d.birthCountry].points += (+d.Pts);
+      scoring[d.birthCountry].assists += (+d.A);
+      scoring[d.birthCountry].goals += (+d.G);
     }
-    if (!(scoring[d.state].playerList.includes(d.playerID))) {
-      scoring[d.state].playerList.push(d.playerID);
-      scoring[d.state].totalPlayers += 1;
+    if (!(scoring[d.birthCountry].playerList.includes(d.playerID))) {
+      scoring[d.birthCountry].playerList.push(d.playerID);
+      scoring[d.birthCountry].totalPlayers += 1;
     }
   });
 
   console.log(scoring);
 
   // Draw the map
-  d3.select("#usaMap")
+  d3.select("#worldMap")
     .append("g")
-    .attr("class", "states")
+    .attr("class", "countries")
     .selectAll("path")
     .data(topo.features)
     .enter().append("path")
     .attr("fill", function(d) {
       // Pull data for this country
       if (scoring.hasOwnProperty(d.properties.name)) {
-        return usaColorScale(scoring[d.properties.name].points);
+        return colorScale(scoring[d.properties.name].points);
       } else {
         return "lightgrey";
       }
     })
-    .attr("d", path)
+    .attr("d", worldPath)
     .on("mouseover", mouseover)
-    .on("mouseout", mouseout)
-    .on("mousemove", mousemove);
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseout);
 
   d3.select("body")
     .append("div")
@@ -291,13 +227,13 @@ function ready(error, topo, data) {
         .style("opacity", 1);
     }
 
-    d3.select("#usaMap")
-      .select(".states").remove();
+    d3.select("#worldMap")
+      .select(".countries").remove();
 
     // Draw the map
-    d3.select("#usaMap")
+    d3.select("#worldMap")
       .append("g")
-      .attr("class", "states")
+      .attr("class", "countries")
       .selectAll("path")
       .data(topo.features)
       .enter().append("path")
@@ -314,24 +250,25 @@ function ready(error, topo, data) {
             numberToShow = scoring[d.properties.name].assists;
           }
 
-          return usaColorScale(numberToShow);
+          return colorScale(numberToShow);
         } else {
           return "lightgrey";
         }
       })
-      .attr("d", path)
+      .attr("d", worldPath)
       .style("stroke", "white")
       .style("opacity", 1)
       .on("mouseover", mouseover)
       .on("mousemove", mousemove)
       .on("mouseleave", mouseout);
+
   }
 
   // When the button is changed, run the updateChart function
-  d3.select("#usaSelectButton").on("change", function(d) {
+  d3.select("#worldSelectButton").on("change", function(d) {
     // recover the option that has been chosen
-    var selectedOption = d3.select(this).property("value")
+    var selectedOption = d3.select(this).property("value");
     // run the updateChart function with this selected option
-    update(selectedOption, topo, data)
+    update(selectedOption, topo, data);
   })
 }

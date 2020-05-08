@@ -140,23 +140,23 @@
 <div id="header"></div>
 <div id="subHeader"></div>
 <div id="image">
-  <img src="PlanteHead.jpg" class="center" border="5" width="10%">
+  <img src="/landing-page/img/HenrikHead.jpg" class="center" border="5" width="10%">
 </div>
 <h2>Key Stats</h2>
 <div id="chart"></div>
-<script src="RadarChart.js"></script>
+<script src="/landing-page/js/RadarChart.js"></script>
 <h3>Highlight Reel</h3>
 <div class="videoContainer">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/ub_Qg7AovUM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/Jt5qxLQXClE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
-<p align="center"><b>Notre-Dame-du-Mont-Carmel, Quebec, Canada</b></p>
-<p align="center"><b>Played in NHL 1952-1972</b></p>
-<p align="center"><b>6 Stanley Cups</b></p>
-<p align="center"><b>7 Vezina Trophies (NHL Best Goaltender)</b></p>
-<p align="center"><b>One of the most important <a href="https://en.wikipedia.org/wiki/Jacques_Plante#Legacy">innovators</a> to ever play the game</b></p>
-<h4 align="center">Wins over Time</h4>
+<p align="center"><b>Are, Sweden</b></p>
+<p align="center"><b>Drafted 200th overall in 2000</b></p>
+<p align="center"><b>1 Vezina Trophy (NHL's Best Goaltender)</b></p>
+<p align="center"><b>Fastest goaltender to record 400 wins in NHL history</b></p>
+<p align="center"><b>Only NHL goalie ever to record 11 30-win seasons in first 12 seasons</b></p>
+<h4 align="center">Save Rates over Time</h4>
 <div id="timeline" style="text-align:center;">
-  <script src="timeline.js"></script>
+  <script src="/landing-page/js/timeline.js"></script>
 </div>
 <script>
   function goBack() {
@@ -165,12 +165,12 @@
   const head = d3.select("#header");
   head
     .append("h1")
-    .text("Jacques Plante")
+    .text("Henrik Lundqvist")
     .classed("headerStyle", true)
   const subHead = d3.select("#subHeader");
   head
     .append("h1")
-    .text('"Jake the Snake"')
+    .text('"King Henrik"')
     .classed("subHeaderStyle", true)
 
   var width = 300,
@@ -180,12 +180,12 @@
   var config = {
     w: width,
     h: height,
-    maxValue: 1000,
+    maxValue: 750,
     levels: 5,
     ExtraWidthX: 300
   }
 
-  d3.json("plante.json", function(error, data) {
+  d3.json("/landing-page/data/henrik.json", function(error, data) {
     console.log(data);
     RadarChart.draw("#chart", data, config);
   });
@@ -196,5 +196,5 @@
     .attr("width", width)
     .attr("height", height);
 
-  timeline.drawGoalie("plantja01");
+  timeline.drawGoalie("lundqhe01");
 </script>

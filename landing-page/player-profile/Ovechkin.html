@@ -140,23 +140,25 @@
 <div id="header"></div>
 <div id="subHeader"></div>
 <div id="image">
-  <img src="HenrikHead.jpg" class="center" border="5" width="10%">
+  <img src="/landing-page/img/OviHead.jpg" class="center" border="5" width="10%">
 </div>
+<p align="center"><b>Moscow, Russia</b></p>
+<p align="center"><b>Drafted 1st overall by the Washington Capitals (2004)</b></p>
+<p align="center"><b>1 Stanley Cup</b></p>
+<p align="center"><b>3 Hart Trophies (NHL MVP)</b></p>
+<p align="center"><b>8 "Rocket" Richard Trophies (NHL goal-scoring leader)</b></p>
+<h4 align="center">Point Rates over Time</h4>
 <h2>Key Stats</h2>
 <div id="chart"></div>
-<script src="RadarChart.js"></script>
+<script src="/landing-page/js/RadarChart.js"></script>
 <h3>Highlight Reel</h3>
 <div class="videoContainer">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/Jt5qxLQXClE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/_gMwlEU_rhg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 </div>
-<p align="center"><b>Are, Sweden</b></p>
-<p align="center"><b>Drafted 200th overall in 2000</b></p>
-<p align="center"><b>1 Vezina Trophy (NHL's Best Goaltender)</b></p>
-<p align="center"><b>Fastest goaltender to record 400 wins in NHL history</b></p>
-<p align="center"><b>Only NHL goalie ever to record 11 30-win seasons in first 12 seasons</b></p>
-<h4 align="center">Save Rates over Time</h4>
 <div id="timeline" style="text-align:center;">
-  <script src="timeline.js"></script>
+  <script src="/landing-page/js/timeline.js"></script>
 </div>
 <script>
   function goBack() {
@@ -165,12 +167,12 @@
   const head = d3.select("#header");
   head
     .append("h1")
-    .text("Henrik Lundqvist")
+    .text("Alex Ovechkin")
     .classed("headerStyle", true)
   const subHead = d3.select("#subHeader");
   head
     .append("h1")
-    .text('"King Henrik"')
+    .text('"The Great Eight"')
     .classed("subHeaderStyle", true)
 
   var width = 300,
@@ -180,12 +182,12 @@
   var config = {
     w: width,
     h: height,
-    maxValue: 750,
-    levels: 5,
+    maxValue: 3000,
+    levels: 6,
     ExtraWidthX: 300
   }
 
-  d3.json("henrik.json", function(error, data) {
+  d3.json("/landing-page/data/Ovi.json", function(error, data) {
     console.log(data);
     RadarChart.draw("#chart", data, config);
   });
@@ -196,5 +198,5 @@
     .attr("width", width)
     .attr("height", height);
 
-  timeline.drawGoalie("lundqhe01");
+  timeline.draw("Alex_Ovechkin");
 </script>
