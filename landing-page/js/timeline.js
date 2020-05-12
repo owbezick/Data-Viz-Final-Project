@@ -21,7 +21,7 @@ var timeline = {
         "translate(" + margin.left + "," + margin.top + ")");
 
     //Read the data
-    d3.csv("/landing-page/data/exp_scoring.csv", function(error, data) {
+    d3.csv("/data/exp_scoring.csv", function(error, data) {
 
       scoring = [];
 
@@ -116,7 +116,7 @@ var timeline = {
         "translate(" + margin.left + "," + margin.top + ")");
 
     //Read the data
-    d3.csv("/landing-page/data/Goalies.csv", function(error, data) {
+    d3.csv("/data/Goalies.csv", function(error, data) {
 
       scoring = [];
 
@@ -202,7 +202,7 @@ var timeline = {
 
         // Add Y axis
         var y = d3.scaleLinear()
-          .domain([10, d3.max(scoring, d => d.spg)])
+          .domain([0, d3.max(scoring, d => d.spg)])
           .range([height, 0]);
         svg.append("g")
           .call(d3.axisLeft(y));
@@ -217,7 +217,7 @@ var timeline = {
             .x(function(d) {
               return x(d.year)
             })
-            .y0(y(10))
+            .y0(y(0))
             .y1(function(d) {
               return y(d.spg)
             })
