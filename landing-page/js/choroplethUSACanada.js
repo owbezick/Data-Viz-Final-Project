@@ -104,8 +104,9 @@ var data = d3.map();
 
 var legendObj = d3.select("#usaMap")
   .append("g")
+  .style("font-size", "15px")
   .attr("class", "legendThreshold")
-  .attr("transform", "translate(20,20)");
+  .attr("transform", "translate(0,20)");
 
 legendObj.append("text")
   .attr("class", "caption")
@@ -117,7 +118,7 @@ var legend = d3.legendColor()
   .labels(function(d) {
     return labels[d.i];
   })
-  .shapePadding(4)
+  .shapePadding(6)
   .scale(usaColorScale);
 
 d3.select("#usaMap")
@@ -223,12 +224,11 @@ function ready(error, topo, data) {
 
     if (scoring[d.properties.name]) {
       d3.select(".tooltip")
-        .text(scoring[d.properties.name].totalPlayers + " professional hockey " +
-          "players from " + d.properties.name + " have scored a total of " +
-          scoring[d.properties.name].points + " points.");
+        .html("<u>" + d.properties.name + "</u><br>Total Players: " + scoring[d.properties.name].totalPlayers +
+          "<br>Total Points: " + scoring[d.properties.name].points);
     } else {
       d3.select(".tooltip")
-        .text("No professional hockey players have been born in " +
+        .html("No professional hockey<br>players have been born<br>in " +
           d.properties.name + ".");
     }
   }
@@ -273,12 +273,12 @@ function ready(error, topo, data) {
 
       if (scoring[d.properties.name]) {
         d3.select(".tooltip")
-          .text(scoring[d.properties.name].totalPlayers + " professional hockey " +
-            "players from " + d.properties.name + " have scored a total of " +
-            numberToShow + " " + selectedGroup.toLowerCase() + ".");
+          .html("<u>" + d.properties.name + "</u><br>Total Players: " +
+            scoring[d.properties.name].totalPlayers + "<br>Total " +
+            selectedGroup + ": " + numberToShow);
       } else {
         d3.select(".tooltip")
-          .text("No professional hockey players have been born in " +
+          .html("No professional hockey<br>players have been born<br>in " +
             d.properties.name + ".");
       }
     }

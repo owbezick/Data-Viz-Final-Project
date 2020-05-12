@@ -140,7 +140,7 @@
 <div id="header"></div>
 <div id="subHeader"></div>
 <div id="image">
-  <img src="/landing-page/img/OviHead.jpg" class="center" border="5" width="10%">
+  <img src="/img/OviHead.jpg" class="center" border="5" width="10%">
 </div>
 <p align="center"><b>Moscow, Russia</b></p>
 <p align="center"><b>Drafted 1st overall by the Washington Capitals (2004)</b></p>
@@ -150,7 +150,7 @@
 <h4 align="center">Point Rates over Time</h4>
 <h2>Key Stats</h2>
 <div id="chart"></div>
-<script src="/landing-page/js/RadarChart.js"></script>
+<script src="/js/RadarChart.js"></script>
 <h3>Highlight Reel</h3>
 <div class="videoContainer">
 
@@ -158,7 +158,7 @@
 
 </div>
 <div id="timeline" style="text-align:center;">
-  <script src="/landing-page/js/timeline.js"></script>
+  <script src="/js/timeline.js"></script>
 </div>
 <script>
   function goBack() {
@@ -187,7 +187,7 @@
     ExtraWidthX: 300
   }
 
-  d3.json("/landing-page/data/Ovi.json", function(error, data) {
+  d3.json("/data/Ovi.json", function(error, data) {
     console.log(data);
     RadarChart.draw("#chart", data, config);
   });
