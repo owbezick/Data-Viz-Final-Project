@@ -58,7 +58,7 @@ d3.select("#worldMap")
 // Load external data and boot
 d3.queue()
   .defer(d3.json, "https://enjalot.github.io/wwsd/data/world/world-110m.geojson")
-  .defer(d3.csv, "data/exp_scoring.csv")
+  .defer(d3.csv, "../data/exp_scoring.csv")
   .await(ready);
 
 function ready(error, topo, data) {

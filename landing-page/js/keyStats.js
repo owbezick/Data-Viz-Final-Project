@@ -1,4 +1,4 @@
-d3.csv("data/gameScoring.csv").then(d => chart(d))
+d3.csv("../data/gameScoring.csv").then(d => chart(d))
 
 function chart(data) {
 
