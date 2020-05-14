@@ -127,8 +127,8 @@ d3.select("#usaMap")
 
 // Load external data and boot
 queue()
-  .defer(d3.json, "data/states_provinces.json")
-  .defer(d3.csv, "data/exp_scoring.csv")
+  .defer(d3.json, "../data/states_provinces.json")
+  .defer(d3.csv, "../data/exp_scoring.csv")
   .await(ready);
 
 function ready(error, topo, data) {

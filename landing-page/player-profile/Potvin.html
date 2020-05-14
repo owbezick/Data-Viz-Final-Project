@@ -140,11 +140,11 @@
 <div id="header"></div>
 <div id="subHeader"></div>
 <div id="image">
-  <img src="/img/PotvinHead.jpg" class="center" border="5" width="10%">
+  <img src="../img/PotvinHead.jpg" class="center" border="5" width="10%">
 </div>
 <h2>Key Stats</h2>
 <div id="chart">
-  <script src="/js/RadarChart.js"></script>
+  <script src="../js/RadarChart.js"></script>
 </div>
 <h3>Highlight Reel</h3>
 <div class="videoContainer">
@@ -157,7 +157,7 @@
 <p align="center"><b>First NHL defenseman to reach 1,000 career points</b></p>
 <h4 align="center">Point Rates over Time</h4>
 <div id="timeline" style="text-align:center;">
-  <script src="/js/timeline.js"></script>
+  <script src="../js/timeline.js"></script>
 </div>
 <script>
   function goBack() {
@@ -181,7 +181,7 @@
     ExtraWidthX: 300
   }
 
-  d3.json("/data/Potvin.json", function(error, data) {
+  d3.json("../data/Potvin.json", function(error, data) {
     console.log(data);
     RadarChart.draw("#chart", data, config);
   });
